@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Companies.VMs
+namespace Converters
 {
     [ValueConversion(typeof(object), typeof(Array))]
     public class ToArrayConverter : IValueConverter

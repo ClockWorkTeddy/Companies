@@ -12,58 +12,66 @@ using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System.Windows;
 using Microsoft.Identity.Client;
+using Simplified;
 
 namespace Companies.VMs
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
-        private CompaniesContext Context;
+        private readonly CompaniesContext context;
 
         //public ObservableCollection<Root> Roots { get; set; } = new();
         public ObservableCollection<Company> Companies { get; set; } = new ObservableCollection<Company>();
 
-        public AutoCommand DeleteCommand =>
-            new AutoCommand(obj => { DeleteCommandExecute(); },
-                            obj =>  DeleteCommandCanExecute());
+        public RelayCommand DeleteCommand => GetCommand(DeleteCommandExecute, DeleteCommandCanExecute);
 
-        public AutoCommand EditCommand =>
-            new AutoCommand(obj => { EditCommandExecute(); });
+        public RelayCommand EditCommand => GetCommand(EditCommandExecute);
 
 
-        private object selectedItem;
+        //private object selectedItem;
 
-        public object SelectedItem
+        public object? SelectedItem
         {
             get
             {
-                return selectedItem;
+                return Get<object>();
             }
             set
             {
-                selectedItem = value;
-                OnPropertyChanged("SelectedItem");
-                if (value is Company company)
+                //selectedItem = value;
+                //OnPropertyChanged("SelectedItem");
+                if (Set(value))
                 {
-                    SelectedCompany.Clear();
-                    SelectedCompany.Add(company);
-                }
-                else if (value is Department department)
-                {
-                    SelectedDepartment.Clear();
-                    SelectedDepartment.Add(department);
+                    Company? company = value as Company;
+                    if (company is null)
+                    {
+                        Department? department = value as Department;
+                        if (department is null)
+                        {
+                            Employee? employee = value as Employee;
+
+                            SelectedEmployee = employee;
+
+                            department = employee?.Department;
+                        }
+                        SelectedDepartment = department;
+                        company = department?.Company;
+                    }
+                    SelectedCompany = company;
                 }
             }
         }
 
-        public ObservableCollection<Company> SelectedCompany {get;set;} = new ObservableCollection<Company>();
-        public ObservableCollection<Department> SelectedDepartment { get; set; } = new ObservableCollection<Department>();
+        public Company? SelectedCompany { get => Get<Company>(); private set => Set(value); }
+        public Department? SelectedDepartment { get => Get<Department>(); private set => Set(value); }
+        public Employee? SelectedEmployee { get => Get<Employee>(); private set => Set(value); }
         public MainWindowViewModel()
         {
-            Context = new CompaniesContext();
-            Context.Database.EnsureCreated();
-            Companies = new ObservableCollection<Company>(Context.Companies.Include(c=>c.Departments).ThenInclude(d => d.Employees).ToList());
-            Root root = new();
-            root.Companies = Companies;
+            context = new CompaniesContext();
+            context.Database.EnsureCreated();
+            Companies = new ObservableCollection<Company>(context.Companies.Include(c => c.Departments).ThenInclude(d => d.Employees).ToList());
+            //Root root = new();
+            //root.Companies = Companies;
             //Roots.Add(root);
         }
 
@@ -81,8 +89,8 @@ namespace Companies.VMs
             }
             else if (SelectedItem is Employee employee)
             {
-                int departmentId = Context.Departments.FirstOrDefault(d => d.Id == employee.DepartmentId).Id;
-                int companyId = Context.Departments.FirstOrDefault(d => d.Id == employee.DepartmentId).CompanyId;
+                int departmentId = context.Departments.FirstOrDefault(d => d.Id == employee.DepartmentId).Id;
+                int companyId = context.Departments.FirstOrDefault(d => d.Id == employee.DepartmentId).CompanyId;
                 RemoveEmployeeContext(companyId, departmentId, employee);
                 RemoveEmployeeView(companyId, departmentId, employee);
             }
@@ -90,15 +98,15 @@ namespace Companies.VMs
 
         private void RemoveCompanyContext(Company company)
         {
-            Context.Companies.Remove(company);
-            Context.SaveChanges();
+            context.Companies.Remove(company);
+            context.SaveChanges();
         }
 
         private void RemoveDepartmentContext(Department department)
         {
-            var contextCompany = Context.Companies.FirstOrDefault(c => c.Id == department.CompanyId);
+            var contextCompany = context.Companies.FirstOrDefault(c => c.Id == department.CompanyId);
             contextCompany.Departments.Remove(department);
-            Context.SaveChanges();
+            context.SaveChanges();
         }
 
         private void RemoveDepartmentView(Department department)
@@ -109,10 +117,10 @@ namespace Companies.VMs
 
         private void RemoveEmployeeContext(int companyId, int departmentId, Employee employee)
         {
-            var company = Context.Companies.FirstOrDefault(c => c.Id == companyId);
+            var company = context.Companies.FirstOrDefault(c => c.Id == companyId);
             var department = company.Departments.FirstOrDefault(d => d.Id == departmentId);
             department.Employees.Remove(employee);
-            Context.SaveChanges();
+            context.SaveChanges();
         }
 
         private void RemoveEmployeeView(int companyId, int departmentId, Employee employee)
@@ -129,7 +137,7 @@ namespace Companies.VMs
 
         public void EditCommandExecute()
         {
-            Context.SaveChanges();
+            context.SaveChanges();
         }
     }
 

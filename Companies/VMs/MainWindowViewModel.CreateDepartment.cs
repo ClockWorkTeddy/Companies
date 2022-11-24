@@ -1,4 +1,5 @@
 ﻿using Companies.Models;
+using Simplified;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,9 @@ namespace Companies.VMs
     public partial class MainWindowViewModel : ViewModelBase
     {
         public Department CreatedDepartment { get; set; }
-        public AutoCommand AddDepartmentCommand =>
-            new AutoCommand(obj => { AddDepartmentExecute(); }, obj => AddDepartmentCanExecute());
+        public RelayCommand AddDepartmentCommand => GetCommand(AddDepartmentExecute,AddDepartmentCanExecute);
 
-        public AutoCommand CancelDepartmentCommand =>
-            new AutoCommand(obj => { CancelDepartmentCommandExecute(); });
+        public RelayCommand CancelDepartmentCommand =>GetCommand(CancelDepartmentCommandExecute);
 
         private void CancelDepartmentCommandExecute()
         {
@@ -23,19 +22,19 @@ namespace Companies.VMs
         public Action CloseDepartmentAction { get; set; }
 
 
-        private string departmentName;
-        public string DepartmentName
-        {
-            get
-            {
-                return departmentName;
-            }
-            set
-            {
-                departmentName = value;
-                OnPropertyChanged("DepartmentName");
-            }
-        }
+        //private string departmentName;
+        public string? DepartmentName { get => Get<string>(); set => Set(value); }
+        //{
+        //    get
+        //    {
+        //        return departmentName;
+        //    }
+        //    set
+        //    {
+        //        departmentName = value;
+        //        OnPropertyChanged("DepartmentName");
+        //    }
+        //}
 
         private bool AddDepartmentCanExecute()
         {
@@ -48,9 +47,9 @@ namespace Companies.VMs
             {
                 Name = this.DepartmentName,
             };
-            var company = Context.Companies.FirstOrDefault(c => c.Id == SelectedCompany[0].Id);
+            var company = context.Companies.FirstOrDefault(c => c.Id == SelectedCompany.Id);
             company?.Departments?.Add(CreatedDepartment);
-            Context.SaveChanges();
+            context.SaveChanges();
             CloseDepartmentAction();
             ResetDepartmentData();
         }

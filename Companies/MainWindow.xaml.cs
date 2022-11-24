@@ -32,7 +32,7 @@ namespace Companies
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (treeView1.SelectedItem is Root)
+            if (treeView1.SelectedItem is IEnumerable<Company>)
             {
                 CreateCompanyWindow createCompanyWindow = new (DataContext);
                 createCompanyWindow.Owner = this;

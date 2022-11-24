@@ -8,6 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="VMs\AutoCommand.cs" />
+    <Compile Remove="VMs\AutoCommandGeneric.cs" />
+    <Compile Remove="VMs\CompanyVisibleConverter.cs" />
+    <Compile Remove="VMs\DepartmentVisibleConverter.cs" />
+    <Compile Remove="VMs\EmployeeVisibleConverter.cs" />
+    <Compile Remove="VMs\Root.cs" />
+    <Compile Remove="VMs\ViewModelBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="companies.db" />
     <None Remove="Newcompanies.db" />
   </ItemGroup>

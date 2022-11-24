@@ -46,12 +46,17 @@ namespace Companies.VMs
                     SelectedCompany.Clear();
                     SelectedCompany.Add(company);
                 }
+                else if (value is Department department)
+                {
+                    SelectedDepartment.Clear();
+                    SelectedDepartment.Add(department);
+                }
                 Context.SelectedItem = selectedItem;
             }
         }
 
         public ObservableCollection<Company> SelectedCompany {get;set;} = new ObservableCollection<Company>();
-
+        public ObservableCollection<Department> SelectedDepartment { get; set; } = new ObservableCollection<Department>();
         public MainWindowViewModel()
         {
             Context = CompaniesContext.GetInstance();
@@ -102,11 +107,6 @@ namespace Companies.VMs
         public void EditCommandExecute()
         {
             Context.SaveChanges();
-        }
-
-        private int GetSelectedCompanyId()
-        {
-            return SelectedCompany[0].Id;
         }
     }
 

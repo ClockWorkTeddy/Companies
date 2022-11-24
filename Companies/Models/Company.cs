@@ -17,5 +17,10 @@ namespace Companies.Models
             Departments
         { get; private set; } =
             new ObservableCollection<Department>();
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

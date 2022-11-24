@@ -20,7 +20,7 @@ namespace Companies
         public EventHandler Refresh { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=V03\SQLEXPRESS;Database=CompaniesDb;Trusted_Connection=True;Encrypt=false");
+            optionsBuilder.UseSqlite("Data Source = companies.db");
         }
 
         public static CompaniesContext GetInstance()
@@ -42,6 +42,17 @@ namespace Companies
             {
                 var comp = Companies.FirstOrDefault(c => c.Id == company.Id);
                 comp.Departments.Add(newDepatrment);
+                SaveChanges();
+            }
+        }
+
+        public void PlaceEmployee(Employee employee)
+        {
+            if (SelectedItem is Department department)
+            {
+                var company = Companies.FirstOrDefault(c => c.Id == department.Id);
+                var dep = company.Departments.FirstOrDefault(d => d.Id == department.Id);
+                dep.Employees.Add(employee);
                 SaveChanges();
             }
         }

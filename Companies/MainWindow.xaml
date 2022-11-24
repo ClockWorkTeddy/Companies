@@ -8,16 +8,14 @@
         xmlns:models="clr-namespace:Companies.Models" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Companies"
+        xmlns:bhrs="clr-namespace:Behaviors"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.DataContext>
         <vms:MainWindowViewModel/>
     </Window.DataContext>
-    <!--<Window.Resources>
-        <vms:CompanyVisibleConverter x:Key="comVisConverter"/>
-        <vms:DepartmentVisibleConverter x:Key="depVisConverter"/>
-        <vms:EmployeeVisibleConverter x:Key="empVisConverter"/>
-    </Window.Resources>-->
+    <Window.Resources>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"></ColumnDefinition>
@@ -27,7 +25,8 @@
                   ItemsSource="{Binding Companies, Converter={cnvs:ToArray}}" 
                   Margin="0,0,0,219">
             <i:Interaction.Behaviors>
-                <vms:SelectedItemBinding SelectedItem="{Binding SelectedItem, Mode=TwoWay}"/>
+                <bhrs:BindingReadOnlyProperty SourceBinding="{Binding SelectedItem, Mode=TwoWay}"
+                                              Property="TreeView.SelectedItem"/>
             </i:Interaction.Behaviors>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding}" DataType="{local:CompaniesType}">

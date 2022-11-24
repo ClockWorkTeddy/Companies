@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Behaviors\SelectedItemBinding.cs" />
     <Compile Remove="VMs\AutoCommand.cs" />
     <Compile Remove="VMs\AutoCommandGeneric.cs" />
     <Compile Remove="VMs\CompanyVisibleConverter.cs" />

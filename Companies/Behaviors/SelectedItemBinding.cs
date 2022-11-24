@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xaml.Behaviors;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Companies.VMs
+namespace Behaviors
 {
-    internal class SelectedItemBinding : Behavior<TreeView>
+    public class SelectedItemBinding : Behavior<TreeView>
     {
         public object SelectedItem
         {

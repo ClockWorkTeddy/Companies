@@ -1,18 +1,9 @@
 ﻿using Companies.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using System.Windows.Input;
-using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using System.Windows;
-using Microsoft.Identity.Client;
 using Simplified;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Companies.VMs
 {

@@ -363,5 +363,3 @@ MigrationBackup/
 FodyWeavers.xsd
 *.db-shm
 *.db-wal
-/Companies/Newcompanies.db-wal
-/Companies/Newcompanies.db-shm

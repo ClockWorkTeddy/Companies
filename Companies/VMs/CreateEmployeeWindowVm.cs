@@ -132,9 +132,36 @@ namespace Companies.VMs
             CreatedEmployee = new Employee()
             {
                 Name = this.EmployeeName,
+                Lastname = this.LastName,
+                BirthDay = this.Birthday,
+                Salary = this.Salary,
+                Middlename = this.MiddleName,
+                Date = this.DateRecruitment,
+                Position = this.Position
             };
-            Context.PlaceEmployee(CreatedEmployee);
+            SelectedDepartment[0].Employees.Add(CreatedEmployee);
+            Context.SaveChanges();
             CloseEmployeeAction();
+            ResetEmployeeData();
+        }
+
+        private void ResetEmployeeData()
+        {
+            this.EmployeeName = "";
+            this.LastName = "";
+            this.Birthday = "";
+            this.Salary = 0;
+            this.MiddleName = "";
+            this.DateRecruitment = "";
+            this.Position = "";
+        }
+
+        public void RefreshEmployees(int departmentId, Employee newEployee)
+        {
+            var department = Context.Departments.FirstOrDefault(d => d.Id == departmentId);
+            var company = Context.Companies.FirstOrDefault(c => c.Id == department.CompanyId);
+            department = company.Departments.FirstOrDefault(d => d.Id == departmentId);
+            department.Employees.Add(newEployee);
         }
     }
 }

@@ -52,6 +52,7 @@ namespace Companies.VMs
             company?.Departments?.Add(CreatedDepartment);
             Context.SaveChanges();
             CloseDepartmentAction();
+            ResetDepartmentData();
         }
     }
 }

@@ -17,9 +17,10 @@ namespace Companies.VMs
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
+        private CompaniesContext Context;
+
         public ObservableCollection<Root> Roots { get; set; } = new();
         public ObservableCollection<Company> Companies { get; set; } = new ObservableCollection<Company>();
-        public CompaniesContext Context { get; set; }
 
         public AutoCommand DeleteCommand =>
             new AutoCommand(obj => { DeleteCommandExecute(); },
@@ -51,7 +52,6 @@ namespace Companies.VMs
                     SelectedDepartment.Clear();
                     SelectedDepartment.Add(department);
                 }
-                Context.SelectedItem = selectedItem;
             }
         }
 
@@ -61,42 +61,65 @@ namespace Companies.VMs
         {
             Context = new CompaniesContext();
             Context.Database.EnsureCreated();
-            Context.Refresh += RefreshExecute;
-            Companies = new ObservableCollection<Company>(Context.Companies.Include(c=>c.Departments).ToList());
+            Companies = new ObservableCollection<Company>(Context.Companies.Include(c=>c.Departments).ThenInclude(d => d.Employees).ToList());
             Root root = new();
             root.Companies = Companies;
             Roots.Add(root);
-            RefreshCollection();
-        }
-
-        public void RefreshCollection()
-        {
-            foreach (var company in Context.Companies.ToList())
-                if (Companies.FirstOrDefault(c => c.Name == company.Name) == null)
-                    Companies.Add(company);
-        }
-
-        public void RefreshExecute(object sender, EventArgs e)
-        {
-            RefreshCollection();
         }
 
         public void DeleteCommandExecute()
         {
             if (SelectedItem is Company company)
             {
-                Context.Companies.Remove(company);
-                Context.SaveChanges();
+                RemoveCompanyContext(company);
                 Companies.Remove(company);
             }
             else if (SelectedItem is Department department)
             {
-                var contextCompany = Context.Companies.FirstOrDefault(c => c.Id == department.CompanyId);
-                contextCompany.Departments.Remove(department);
-                Context.SaveChanges();
-                var viewCompany = Companies.FirstOrDefault(c => c.Id == department.CompanyId);
-                viewCompany.Departments.Remove(department);
+                RemoveDepartmentContext(department);
+                RemoveDepartmentView(department);
             }
+            else if (SelectedItem is Employee employee)
+            {
+                int departmentId = Context.Departments.FirstOrDefault(d => d.Id == employee.DepartmentId).Id;
+                int companyId = Context.Departments.FirstOrDefault(d => d.Id == employee.DepartmentId).CompanyId;
+                RemoveEmployeeContext(companyId, departmentId, employee);
+                RemoveEmployeeView(companyId, departmentId, employee);
+            }
+        }
+
+        private void RemoveCompanyContext(Company company)
+        {
+            Context.Companies.Remove(company);
+            Context.SaveChanges();
+        }
+
+        private void RemoveDepartmentContext(Department department)
+        {
+            var contextCompany = Context.Companies.FirstOrDefault(c => c.Id == department.CompanyId);
+            contextCompany.Departments.Remove(department);
+            Context.SaveChanges();
+        }
+
+        private void RemoveDepartmentView(Department department)
+        {
+            var viewCompany = Companies.FirstOrDefault(c => c.Id == department.CompanyId);
+            viewCompany.Departments.Remove(department);
+        }
+
+        private void RemoveEmployeeContext(int companyId, int departmentId, Employee employee)
+        {
+            var company = Context.Companies.FirstOrDefault(c => c.Id == companyId);
+            var department = company.Departments.FirstOrDefault(d => d.Id == departmentId);
+            department.Employees.Remove(employee);
+            Context.SaveChanges();
+        }
+
+        private void RemoveEmployeeView(int companyId, int departmentId, Employee employee)
+        {
+            var company = Companies.FirstOrDefault(c => c.Id == companyId);
+            var department = company.Departments.FirstOrDefault(d => d.Id == departmentId);
+            department.Employees.Remove(employee);
         }
 
         public bool DeleteCommandCanExecute()

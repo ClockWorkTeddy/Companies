@@ -32,17 +32,23 @@ namespace Companies
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (this.treeView1.SelectedItem is Root)
+            if (treeView1.SelectedItem is Root)
             {
-                CreateCompanyWindow createCompanyWindow = new CreateCompanyWindow(DataContext);
+                CreateCompanyWindow createCompanyWindow = new (DataContext);
                 createCompanyWindow.Owner = this;
                 createCompanyWindow.Show();
             }
-            else if (this.treeView1.SelectedItem is Company)
+            else if (treeView1.SelectedItem is Company)
             {
                 CreateDepartmentWindow createDepartmentWindow = new(DataContext);
                 createDepartmentWindow.Owner = this;
                 createDepartmentWindow.Show();
+            }
+            else if (treeView1.SelectedItem is Department)
+            {
+                CreateEmployeeWindow createEmployeeWindow = new (DataContext);
+                createEmployeeWindow.Owner = this;
+                createEmployeeWindow.Show();
             }
         }
     }

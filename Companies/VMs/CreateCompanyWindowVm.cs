@@ -84,16 +84,21 @@ namespace Companies.VMs
 
             Context.Companies.Add(newCompany);
             Context.SaveChanges();
-            Context.OnRefresh();
+            Companies.Add(newCompany);
             CloseCompanyAction();
-            ResetData();
+            ResetCompanyData();
         }
 
-        private void ResetData()
+        private void ResetCompanyData()
         {
             this.Name = "";
             this.Date = "";
             this.Adress = "";
+        }
+
+        private void ResetDepartmentData()
+        {
+            this.DepartmentName = "";
         }
     }
 }

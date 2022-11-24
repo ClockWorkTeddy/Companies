@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 using Companies.Models;
 
 namespace Companies.VMs
 {
-    internal class CompanyVisibleConverter : IValueConverter
+    public class ToArrayConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Root)
-                return (Visibility.Visible);
-            else
-                return Visibility.Collapsed;
+            if (value == null)
+                return Array.Empty<object>();
+            var array = Array.CreateInstance(value.GetType(), 1);
+            array.SetValue(value, 0);
+            return array;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

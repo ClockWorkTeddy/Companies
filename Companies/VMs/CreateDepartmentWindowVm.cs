@@ -48,7 +48,7 @@ namespace Companies.VMs
             {
                 Name = this.DepartmentName,
             };
-            var company = Context.Companies.FirstOrDefault(c => c.Id == SelectedCompany[0].Id);
+            var company = Context.Companies.FirstOrDefault(c => c.Id == SelectedCompany.Id);
             company?.Departments?.Add(CreatedDepartment);
             Context.SaveChanges();
             CloseDepartmentAction();

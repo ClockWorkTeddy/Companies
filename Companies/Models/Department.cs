@@ -18,5 +18,10 @@ namespace Companies.Models
             Employees 
         { get; private set; } = 
             new ObservableCollection<Employee>();
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

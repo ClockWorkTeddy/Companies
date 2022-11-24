@@ -12,10 +12,9 @@
         <vms:MainWindowViewModel/>
     </Window.DataContext>
     <Window.Resources>
-        <vms:CompanyVisibleConverter x:Key="comVisConverter"/>
         <vms:DepartmentVisibleConverter x:Key="depVisConverter"/>
         <vms:EmployeeVisibleConverter x:Key="empVisConverter"/>
-        <vms:ConverterToArray x:Key="toArrConverter"/>
+        <vms:ToArrayConverter x:Key="toArrConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -49,17 +48,21 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-        <DataGrid Visibility="{Binding SelectedItem, Converter={StaticResource depVisConverter}}" Grid.Column="0" Margin="0, 210, 0, 0" ItemsSource="{Binding SelectedCompany}">
+        <DataGrid Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Company}}" Grid.Column="0" Margin="0, 210, 0, 0" ItemsSource="{Binding SelectedCompany, Converter={StaticResource toArrConverter}}">
             <DataGrid.Columns>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid Visibility="{Binding SelectedItem, Converter={StaticResource empVisConverter}}" Grid.Column="0" Margin="0, 210, 0, 0" ItemsSource="{Binding SelectedDepartment}">
+        <DataGrid Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Department}}" Grid.Column="0" Margin="0, 210, 0, 0" ItemsSource="{Binding SelectedDepartment}">
             <DataGrid.Columns>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Visibility="{Binding SelectedItem, Converter={StaticResource comVisConverter}}" Grid.Column="1" Content="Create Company" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
-        <Button Visibility="{Binding SelectedItem, Converter={StaticResource depVisConverter}}" Grid.Column="1" Content="Create Department" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
-        <Button Visibility="{Binding SelectedItem, Converter={StaticResource empVisConverter}}" Grid.Column="1" Content="Create Employee" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
+        <DataGrid Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Employee}}" Grid.Column="0" Margin="0, 210, 0, 0" ItemsSource="{Binding SelectedEmployee}">
+            <DataGrid.Columns>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible vms:Root}}" Grid.Column="1" Content="Create Company" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
+        <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Company}}" Grid.Column="1" Content="Create Department" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
+        <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Department}}" Grid.Column="1" Content="Create Employee" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
         <Button Command="{Binding EditCommand}" Grid.Column="1" Content="Edit" HorizontalAlignment="Center" Margin="0,95,0,0" VerticalAlignment="Top" Height="50" Width="160"/>
         <Button Command="{Binding DeleteCommand}" Grid.Column="1" Content="Delete" HorizontalAlignment="Center" Margin="0,165,0,0" VerticalAlignment="Top" Height="50" Width="160"/>
     </Grid>

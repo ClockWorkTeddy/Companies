@@ -9,13 +9,12 @@ using System.Collections.ObjectModel;
 
 namespace Companies.VMs
 {
-    public class CreateCompanyWindowVm : ViewModelBase
+    public partial class MainWindowViewModel : ViewModelBase
     {
         private string name;
         private string date;
         private string adress;
 
-        public CompaniesContext Context { get; set; }
         public AutoCommand AddCompanyCommand =>
             new AutoCommand(obj => { AddCompanyExecute(); }, obj => AddCompanyCanExecute());
 
@@ -65,11 +64,6 @@ namespace Companies.VMs
                 adress = value;
                 OnPropertyChanged("Adress");
             }
-        }
-
-        public CreateCompanyWindowVm()
-        {
-            Context = CompaniesContext.GetInstance();
         }
 
         private bool AddCompanyCanExecute()

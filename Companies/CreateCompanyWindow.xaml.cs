@@ -8,10 +8,10 @@ namespace Companies
     /// </summary>
     public partial class CreateCompanyWindow : Window
     {
-        public CreateCompanyWindow()
+        public CreateCompanyWindow(object dataContext)
         {
             InitializeComponent();
-            var vm = new CreateCompanyWindowVm();
+            var vm = (MainWindowViewModel)dataContext;
             DataContext = vm;
             if (vm.CloseAction == null)
                 vm.CloseAction = new Action(() => this.Close());

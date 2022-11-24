@@ -7,54 +7,39 @@ using System.Threading.Tasks;
 
 namespace Companies.VMs
 {
-    public class CreateDepartmentWindowVm : ViewModelBase
+    public partial class MainWindowViewModel : ViewModelBase
     {
-        public CompaniesContext Context { get; set; }
         public Department CreatedDepartment { get; set; }
-        public Action CloseAction { get; set; }
         public AutoCommand AddDepartmentCommand =>
             new AutoCommand(obj => { AddDepartmentExecute(); }, obj => AddDepartmentCanExecute());
 
-        public AutoCommand CancelCommand =>
-            new AutoCommand(obj => { CancelCommandExecute(); });
-
-        public CreateDepartmentWindowVm()
-		{
-            Context = CompaniesContext.GetInstance();
-        }
-
-        private string name;
-        public string Name
+        private string departmentName;
+        public string DepartmentName
         {
             get
             {
-                return name;
+                return departmentName;
             }
             set
             {
-                name = value;
-                OnPropertyChanged("Name");
+                departmentName = value;
+                OnPropertyChanged("DepartmentName");
             }
         }
 
         private bool AddDepartmentCanExecute()
         {
-            return !string.IsNullOrWhiteSpace(Name);
+            return !string.IsNullOrWhiteSpace(DepartmentName);
         }
 
         private void AddDepartmentExecute()
         {
             CreatedDepartment = new Department()
             {
-                Name = this.Name,
+                Name = this.DepartmentName,
             };
             Context.PlaceDepartment(CreatedDepartment);
             CloseAction();
         }
-        private void CancelCommandExecute()
-        {
-            CloseAction();
-        }
-
     }
 }

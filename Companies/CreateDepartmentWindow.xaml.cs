@@ -20,10 +20,10 @@ namespace Companies
     /// </summary>
     public partial class CreateDepartmentWindow : Window
     {
-        public CreateDepartmentWindow()
+        public CreateDepartmentWindow(object dataContext)
         {
             InitializeComponent();
-            var vm = new CreateDepartmentWindowVm();
+            var vm = (MainWindowViewModel)dataContext;
             DataContext = vm;
             if (vm.CloseAction == null)
                 vm.CloseAction = new Action(() => this.Close());

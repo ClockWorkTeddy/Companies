@@ -9,9 +9,6 @@
         xmlns:models="clr-namespace:Companies.Models"
         mc:Ignorable="d"
         Title="CreateCompanyWindow" Height="270" Width="480">
-    <Window.DataContext>
-        <vms:CreateCompanyWindowVm/>
-    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>

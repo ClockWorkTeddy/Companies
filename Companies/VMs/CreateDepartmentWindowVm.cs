@@ -38,6 +38,7 @@ namespace Companies.VMs
             {
                 Name = this.DepartmentName,
             };
+            var company = Context.Companies.FirstOrDefault(c => c.Id == SelectedCompany.Id);
             Context.PlaceDepartment(CreatedDepartment);
             CloseAction();
         }

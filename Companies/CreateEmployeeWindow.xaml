@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.ColumnSpan="2">
             <Label Content="Name:" HorizontalAlignment="Left" Margin="36,20,0,0" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Left" Margin="140,20,0,0" TextWrapping="Wrap" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
+            <TextBox HorizontalAlignment="Left" Margin="140,20,0,0" TextWrapping="Wrap" Text="{Binding EmployeeName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
             <Label Content="LastName:" HorizontalAlignment="Left" Margin="36,50,0,0" VerticalAlignment="Top"/>
             <TextBox HorizontalAlignment="Left" Margin="140,50,0,0" TextWrapping="Wrap" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
             <Label Content="MiddleName:" HorizontalAlignment="Left" Margin="36,80,0,0" VerticalAlignment="Top"/>

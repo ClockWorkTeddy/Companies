@@ -7,33 +7,23 @@ using System.Threading.Tasks;
 
 namespace Companies.VMs
 {
-    internal class CreateEmployeeWindowVm : ViewModelBase
+    public partial class MainWindowViewModel : ViewModelBase
     {
-        public CompaniesContext Context { get; set; }
         public Employee CreatedEmployee { get; set; }
-        public Action CloseAction { get; set; }
         public AutoCommand AddEmployeeCommand =>
             new AutoCommand(obj => { AddEmployeeExecute(); }, obj => AddEmployeeCanExecute());
 
-        public AutoCommand CancelCommand =>
-            new AutoCommand(obj => { CancelCommandExecute(); });
-
-        public CreateEmployeeWindowVm()
-        {
-            Context = CompaniesContext.GetInstance();
-        }
-
-        private string name;
-        public string Name
+        private string employeeName;
+        public string EmployeeName
         {
             get
             {
-                return name;
+                return employeeName;
             }
             set
             {
-                name = value;
-                OnPropertyChanged("Name");
+                employeeName = value;
+                OnPropertyChanged("EmployeeName");
             }
         }
         private string lastName;
@@ -120,25 +110,21 @@ namespace Companies.VMs
             }
         }
 
-
         private bool AddEmployeeCanExecute()
         {
-            return !string.IsNullOrWhiteSpace(Name);
+            return !string.IsNullOrWhiteSpace(EmployeeName) &&
+                   !string.IsNullOrWhiteSpace(Position) &&
+                   Salary > 0;
         }
 
         private void AddEmployeeExecute()
         {
             CreatedEmployee = new Employee()
             {
-                Name = this.Name,
+                Name = this.EmployeeName,
             };
             Context.PlaceEmployee(CreatedEmployee);
             CloseAction();
         }
-        private void CancelCommandExecute()
-        {
-            CloseAction();
-        }
-
     }
 }

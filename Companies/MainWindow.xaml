@@ -14,6 +14,7 @@
         <vms:CompanyVisibleConverter x:Key="comVisConverter"/>
         <vms:DepartmentVisibleConverter x:Key="depVisConverter"/>
         <vms:EmployeeVisibleConverter x:Key="empVisConverter"/>
+        <vms:ConverterToArray x:Key="toArrConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -37,7 +38,7 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-        <DataGrid Visibility="{Binding SelectedItem, Converter={StaticResource depVisConverter}}" Grid.Column="0" Margin="0, 210, 0, 0" ItemsSource="{Binding SelectedCompany}">
+        <DataGrid Visibility="{Binding SelectedItem, Converter={StaticResource depVisConverter}}" Grid.Column="0" Margin="0, 210, 0, 0" ItemsSource="{Binding SelectedCompany, Converter={StaticResource toArrConverter}}">
             <DataGrid.Columns>
             </DataGrid.Columns>
         </DataGrid>

@@ -24,9 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Newcompanies.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Content Include="Newcompanies.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -27,7 +27,7 @@ namespace Companies
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
+            //DataContext = new MainWindowViewModel();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

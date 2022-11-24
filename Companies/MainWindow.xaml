@@ -6,6 +6,7 @@
         xmlns:vms="clr-namespace:Companies.VMs" 
         xmlns:models="clr-namespace:Companies.Models" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:Companies"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.DataContext>
@@ -15,7 +16,6 @@
         <vms:CompanyVisibleConverter x:Key="comVisConverter"/>
         <vms:DepartmentVisibleConverter x:Key="depVisConverter"/>
         <vms:EmployeeVisibleConverter x:Key="empVisConverter"/>
-        <vms:ConverterToArray x:Key="toArrConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -23,16 +23,20 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TreeView Grid.Column="0" Name="treeView1" 
-                  ItemsSource="{Binding Roots, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                  ItemsSource="{Binding Companies, Converter={vms:ToArray}}" 
                   Margin="0,0,0,219">
             <i:Interaction.Behaviors>
                 <vms:SelectedItemBinding SelectedItem="{Binding SelectedItem, Mode=TwoWay}"/>
             </i:Interaction.Behaviors>
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Companies}">
-                    <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                <HierarchicalDataTemplate ItemsSource="{Binding}" DataType="{local:CompaniesType}">
+                    <StackPanel>
+                        <TextBlock Text="Компании"/>
+                        <TextBlock Text="{Binding}"/>
+                        <TextBlock Text="{Binding Count}"/>
+                    </StackPanel>
                     <HierarchicalDataTemplate.ItemTemplate>
-                        <HierarchicalDataTemplate  ItemsSource="{Binding Departments}">
+                        <HierarchicalDataTemplate  ItemsSource="{Binding Departments}" DataType="models:Company">
                             <Label Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
                             <HierarchicalDataTemplate.ItemTemplate>
                                 <HierarchicalDataTemplate  ItemsSource="{Binding Employees}">

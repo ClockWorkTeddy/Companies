@@ -19,4 +19,8 @@ namespace Companies.VMs
             }
         }
     }
+
+}    namespace Simplified
+{
 }
+

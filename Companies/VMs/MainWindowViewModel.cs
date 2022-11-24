@@ -19,7 +19,7 @@ namespace Companies.VMs
     {
         private CompaniesContext Context;
 
-        public ObservableCollection<Root> Roots { get; set; } = new();
+        //public ObservableCollection<Root> Roots { get; set; } = new();
         public ObservableCollection<Company> Companies { get; set; } = new ObservableCollection<Company>();
 
         public AutoCommand DeleteCommand =>
@@ -64,7 +64,7 @@ namespace Companies.VMs
             Companies = new ObservableCollection<Company>(Context.Companies.Include(c=>c.Departments).ThenInclude(d => d.Employees).ToList());
             Root root = new();
             root.Companies = Companies;
-            Roots.Add(root);
+            //Roots.Add(root);
         }
 
         public void DeleteCommandExecute()

@@ -28,16 +28,6 @@ namespace Companies
             Refresh.Invoke(this, new EventArgs());
         }
 
-        public void PlaceDepartment(Department newDepatrment)
-        {
-            if (SelectedItem is Company company)
-            {
-                var comp = Companies.FirstOrDefault(c => c.Id == company.Id);
-                comp.Departments.Add(newDepatrment);
-                SaveChanges();
-            }
-        }
-
         public void PlaceEmployee(Employee employee)
         {
             if (SelectedItem is Department department)

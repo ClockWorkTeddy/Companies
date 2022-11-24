@@ -13,8 +13,7 @@ namespace Companies
             InitializeComponent();
             var vm = (MainWindowViewModel)dataContext;
             DataContext = vm;
-            if (vm.CloseAction == null)
-                vm.CloseAction = new Action(() => this.Close());
+            vm.CloseCompanyAction = new Action(() => this.Close());
         }
     }
 }

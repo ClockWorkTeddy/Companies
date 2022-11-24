@@ -36,6 +36,6 @@
 
         </Grid>
         <Button Command="{Binding AddEmployeeCommand}" Content="Create" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160"/>
-        <Button Command="{Binding CancelCommand}" Content="Cancel" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Grid.Column="1"/>
+        <Button Command="{Binding CancelEmployeeCommand}" Content="Cancel" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Grid.Column="1"/>
     </Grid>
 </Window>

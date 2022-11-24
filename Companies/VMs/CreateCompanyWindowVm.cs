@@ -18,15 +18,15 @@ namespace Companies.VMs
         public AutoCommand AddCompanyCommand =>
             new AutoCommand(obj => { AddCompanyExecute(); }, obj => AddCompanyCanExecute());
 
-        public AutoCommand CancelCommand =>
-            new AutoCommand(obj => { CancelCommandExecute(); });
+        public AutoCommand CancelCompanyCommand =>
+            new AutoCommand(obj => { CancelCompanyCommandExecute(); });
 
-        private void CancelCommandExecute()
+        private void CancelCompanyCommandExecute()
         {
-            CloseAction();
+            CloseCompanyAction();
         }
 
-        public Action CloseAction { get; set; }
+        public Action CloseCompanyAction { get; set; }
 
         public string Name
         {
@@ -85,7 +85,15 @@ namespace Companies.VMs
             Context.Companies.Add(newCompany);
             Context.SaveChanges();
             Context.OnRefresh();
-            CloseAction();
+            CloseCompanyAction();
+            ResetData();
+        }
+
+        private void ResetData()
+        {
+            this.Name = "";
+            this.Date = "";
+            this.Adress = "";
         }
     }
 }

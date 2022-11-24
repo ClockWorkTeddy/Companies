@@ -20,6 +20,6 @@
             <TextBox HorizontalAlignment="Left" Margin="81,0,0,0" TextWrapping="Wrap" Text="{Binding DepartmentName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="360"/>
         </Grid>
         <Button Command="{Binding AddDepartmentCommand}" Content="Create" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160"/>
-        <Button Command="{Binding CancelCommand}" Content="Cancel" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Grid.Column="1"/>
+        <Button Command="{Binding CancelDepartmentCommand}" Content="Cancel" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Grid.Column="1"/>
     </Grid>
 </Window>

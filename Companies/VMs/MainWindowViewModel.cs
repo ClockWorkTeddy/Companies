@@ -43,7 +43,8 @@ namespace Companies.VMs
                 OnPropertyChanged("SelectedItem");
                 if (value is Company company)
                 {
-                    SelectedCompany = selectedItem as Company;
+                    SelectedCompany.Clear();
+                    SelectedCompany.Add(company);
                 }
                 else if (value is Department department)
                 {
@@ -54,11 +55,11 @@ namespace Companies.VMs
             }
         }
 
-        public Company SelectedCompany { get; set; } = new Company();
+        public ObservableCollection<Company> SelectedCompany {get;set;} = new ObservableCollection<Company>();
         public ObservableCollection<Department> SelectedDepartment { get; set; } = new ObservableCollection<Department>();
         public MainWindowViewModel()
         {
-            Context = CompaniesContext.GetInstance();
+            Context = new CompaniesContext();
             Context.Database.EnsureCreated();
             Context.Refresh += RefreshExecute;
             Companies = new ObservableCollection<Company>(Context.Companies.Include(c=>c.Departments).ToList());

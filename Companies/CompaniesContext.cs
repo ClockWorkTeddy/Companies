@@ -20,15 +20,7 @@ namespace Companies
         public EventHandler Refresh { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source = companies.db");
-        }
-
-        public static CompaniesContext GetInstance()
-        {
-            if (instance == null)
-                instance = new CompaniesContext();
-            
-            return instance;
+            optionsBuilder.UseSqlite("Data Source = Newcompanies.db");
         }
 
         public void OnRefresh()

@@ -13,6 +13,16 @@ namespace Companies.VMs
         public AutoCommand AddEmployeeCommand =>
             new AutoCommand(obj => { AddEmployeeExecute(); }, obj => AddEmployeeCanExecute());
 
+        public AutoCommand CancelEmployeeCommand =>
+        new AutoCommand(obj => { CancelEmployeeCommandExecute(); });
+
+        private void CancelEmployeeCommandExecute()
+        {
+            CloseEmployeeAction();
+        }
+
+        public Action CloseEmployeeAction { get; set; }
+
         private string employeeName;
         public string EmployeeName
         {
@@ -124,7 +134,7 @@ namespace Companies.VMs
                 Name = this.EmployeeName,
             };
             Context.PlaceEmployee(CreatedEmployee);
-            CloseAction();
+            CloseEmployeeAction();
         }
     }
 }

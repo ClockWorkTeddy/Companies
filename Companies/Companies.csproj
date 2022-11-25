@@ -9,11 +9,10 @@
 
   <ItemGroup>
     <None Remove="companies.db" />
-    <None Remove="Newcompanies.db" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Newcompanies.db">
+    <Content Include="companies.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

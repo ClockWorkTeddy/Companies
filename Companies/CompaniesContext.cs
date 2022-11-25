@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Companies.Models;
+using System.Windows;
 
 namespace Companies
 {
@@ -20,18 +21,24 @@ namespace Companies
             optionsBuilder.UseSqlite("Data Source = companies.db");
         }
 
-        public void Report()
+        public List<SalaryReportDTO> Report()
         {
-            var report = from emp in Employees
-                         join dep in Departments on emp.DepartmentId equals dep.Id
-                         join com in Companies on dep.CompanyId equals com.Id
-                         select new
-                         {
-                             comName = com.Name, 
-                             depname = dep.Name, 
-                             empName = emp.Name, 
-                             salary = emp.Salary
-                         };
+            List<SalaryReportDTO> result = new List<SalaryReportDTO>();
+            var query =  (from emp in Employees
+                          join dep in Departments on emp.DepartmentId equals dep.Id
+                          join com in Companies on dep.CompanyId equals com.Id
+                          select new
+                          {
+                              CompanyName = com.Name, 
+                              DepartmentName = dep.Name, 
+                              EmployeeName = emp.Name, 
+                              Salary = emp.Salary
+                          }).ToList();
+
+            foreach (var item in query)
+                result.Add(new SalaryReportDTO(item.CompanyName, item.DepartmentName, item.EmployeeName, item.Salary));
+
+            return result;
         }
     }
 }

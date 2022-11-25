@@ -120,6 +120,6 @@
         <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Department}}" Grid.Column="1" Content="Create Employee" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
         <Button Command="{Binding EditCommand}" Grid.Column="1" Content="Edit" HorizontalAlignment="Center" Margin="0,95,0,0" VerticalAlignment="Top" Height="50" Width="160"/>
         <Button Command="{Binding DeleteCommand}" Grid.Column="1" Content="Delete" HorizontalAlignment="Center" Margin="0,165,0,0" VerticalAlignment="Top" Height="50" Width="160"/>
-        <Button Grid.Column="1" Content="Report 1" HorizontalAlignment="Center" Margin="0,235,0,0" VerticalAlignment="Top" Height="50" Width="160"/>
+        <Button Command="{Binding SalaryReportCommand}" Grid.Column="1" Content="Report 1" HorizontalAlignment="Center" Margin="0,235,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click_2"/>
     </Grid>
 </Window>

@@ -33,7 +33,6 @@
             <TextBox HorizontalAlignment="Left" Margin="140,170,0,0" TextWrapping="Wrap" Text="{Binding Position, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
             <Label Content="Salary:" HorizontalAlignment="Left" Margin="36,200,0,0" VerticalAlignment="Top"/>
             <TextBox HorizontalAlignment="Left" Margin="140,200,0,0" TextWrapping="Wrap" Text="{Binding Salary, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
-
         </Grid>
         <Button Command="{Binding AddEmployeeCommand}" Content="Create" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160"/>
         <Button Command="{Binding CancelEmployeeCommand}" Content="Cancel" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Grid.Column="1"/>

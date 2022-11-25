@@ -7,7 +7,7 @@
         xmlns:models="clr-namespace:Companies.Models" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="800">
     <Window.DataContext>
         <vms:MainWindowViewModel/>
     </Window.DataContext>
@@ -16,14 +16,14 @@
         <vms:EmployeeVisibleConverter x:Key="empVisConverter"/>
         <vms:ToArrayConverter x:Key="toArrConverter"/>
     </Window.Resources>
-    <Grid>
+    <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TreeView Grid.Column="0" Name="treeView1" 
                   ItemsSource="{Binding Roots, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                  Margin="0,0,0,219">
+                  Margin="0,0,0,220">
             <i:Interaction.Behaviors>
                 <vms:SelectedItemBinding SelectedItem="{Binding SelectedItem, Mode=TwoWay}"/>
             </i:Interaction.Behaviors>
@@ -48,22 +48,78 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-        <DataGrid Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Company}}" Grid.Column="0" Margin="0, 210, 0, 0" ItemsSource="{Binding SelectedCompany, Converter={StaticResource toArrConverter}}">
-            <DataGrid.Columns>
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Department}}" Grid.Column="0" Margin="0, 210, 0, 0" ItemsSource="{Binding SelectedDepartment}">
-            <DataGrid.Columns>
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Employee}}" Grid.Column="0" Margin="0, 210, 0, 0" ItemsSource="{Binding SelectedEmployee}">
-            <DataGrid.Columns>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Canvas Grid.Column="0" Margin="0,340,0,0" Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Company}}">
+            <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
+                <TextBlock Text="Id: "></TextBlock>
+                <TextBlock Text="{Binding SelectedCompany.Id, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 30, 0, 0">
+                <TextBlock Text="Name: "></TextBlock>
+                <TextBox Text="{Binding SelectedCompany.Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 50, 0, 0">
+                <TextBlock Text="Found: "></TextBlock>
+                <TextBox Text="{Binding SelectedCompany.Date, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 70, 0, 0">
+                <TextBlock Text="Adress: "></TextBlock>
+                <TextBox Text="{Binding SelectedCompany.Adress, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+        </Canvas>
+        <Canvas Grid.Column="0" Margin="0, 340, 0, 50" Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Department}}">
+            <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
+                <TextBlock Text="Id: "></TextBlock>
+                <TextBlock Text="{Binding SelectedDepartment.Id, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 30, 0, 0">
+                <TextBlock Text="Name: "></TextBlock>
+                <TextBox Text="{Binding SelectedDepartment.Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+        </Canvas>
+        <Canvas Grid.Column="0" Margin="0, 340, 0, 50" Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Employee}}">
+            <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
+                <TextBlock Text="Id: "></TextBlock>
+                <TextBlock Text="{Binding SelectedEmployee.Id, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 30, 0, 0">
+                <TextBlock Text="Name: "></TextBlock>
+                <TextBox Text="{Binding SelectedEmployee.Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 50, 0, 0">
+                <TextBlock Text="Lastname: "></TextBlock>
+                <TextBox Text="{Binding SelectedEmployee.Lastname, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 70, 0, 0">
+                <TextBlock Text="Middlename: "></TextBlock>
+                <TextBox Text="{Binding SelectedEmployee.Middlename, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 90, 0, 0">
+                <TextBlock Text="Date: "></TextBlock>
+                <TextBox Text="{Binding SelectedEmployee.Date, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 110, 0, 0">
+                <TextBlock Text="BirthDay: "></TextBlock>
+                <TextBox Text="{Binding SelectedEmployee.BirthDay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 130, 0, 0">
+                <TextBlock Text="Position: "></TextBlock>
+                <TextBox Text="{Binding SelectedEmployee.Position, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 150, 0, 0">
+                <TextBlock Text="Salary: "></TextBlock>
+                <TextBox Text="{Binding SelectedEmployee.Salary, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10, 170, 0, 0">
+                <TextBlock Text="Department: "></TextBlock>
+                <ComboBox ItemsSource="{Binding Departments, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComboDepartment, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+            </StackPanel>
+        </Canvas>
+
         <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible vms:Root}}" Grid.Column="1" Content="Create Company" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
         <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Company}}" Grid.Column="1" Content="Create Department" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
         <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Department}}" Grid.Column="1" Content="Create Employee" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
         <Button Command="{Binding EditCommand}" Grid.Column="1" Content="Edit" HorizontalAlignment="Center" Margin="0,95,0,0" VerticalAlignment="Top" Height="50" Width="160"/>
         <Button Command="{Binding DeleteCommand}" Grid.Column="1" Content="Delete" HorizontalAlignment="Center" Margin="0,165,0,0" VerticalAlignment="Top" Height="50" Width="160"/>
+        <Button Grid.Column="1" Content="Report 1" HorizontalAlignment="Center" Margin="0,235,0,0" VerticalAlignment="Top" Height="50" Width="160"/>
     </Grid>
 </Window>

@@ -23,6 +23,8 @@ namespace Companies.VMs
 
         public Action CloseEmployeeAction { get; set; }
 
+
+
         private string employeeName;
         public string EmployeeName
         {
@@ -137,9 +139,9 @@ namespace Companies.VMs
                 Salary = this.Salary,
                 Middlename = this.MiddleName,
                 Date = this.DateRecruitment,
-                Position = this.Position
+                Position = this.Position,
             };
-            SelectedDepartment[0].Employees.Add(CreatedEmployee);
+            SelectedDepartment.Employees.Add(CreatedEmployee);
             Context.SaveChanges();
             CloseEmployeeAction();
             ResetEmployeeData();

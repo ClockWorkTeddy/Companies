@@ -17,7 +17,21 @@ namespace Companies
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source = Newcompanies.db");
+            optionsBuilder.UseSqlite("Data Source = companies.db");
+        }
+
+        public void Report()
+        {
+            var report = from emp in Employees
+                         join dep in Departments on emp.DepartmentId equals dep.Id
+                         join com in Companies on dep.CompanyId equals com.Id
+                         select new
+                         {
+                             comName = com.Name, 
+                             depname = dep.Name, 
+                             empName = emp.Name, 
+                             salary = emp.Salary
+                         };
         }
     }
 }

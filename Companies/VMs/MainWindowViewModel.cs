@@ -21,7 +21,7 @@ namespace Companies.VMs
 
         public ObservableCollection<Root> Roots { get; set; } = new();
         public ObservableCollection<Company> Companies { get; set; } = new ObservableCollection<Company>();
-
+        public ObservableCollection<Department> Departments { get; set; } = new ObservableCollection<Department>();
         public AutoCommand DeleteCommand =>
             new AutoCommand(obj => { DeleteCommandExecute(); },
                             obj =>  DeleteCommandCanExecute());
@@ -42,32 +42,125 @@ namespace Companies.VMs
             {
                 selectedItem = value;
                 OnPropertyChanged("SelectedItem");
+
                 if (value is Company company)
-                {
                     SelectedCompany = company;
-                }
                 else if (value is Department department)
-                {
-                    SelectedDepartment.Clear();
-                    SelectedDepartment.Add(department);
-                }
+                    SelectedDepartment = department;
                 else if (value is Employee employee)
                 {
-                    SelectedEmployee.Clear();
-                    SelectedEmployee.Add(employee);
+                    SelectedEmployee = employee;
                 }
             }
         }
+        private Company selectedCompany;
+        public Company SelectedCompany
+        {
+            get
+            {
+                return selectedCompany;
+            }
+            set
+            {
+                selectedCompany = value;
+                OnPropertyChanged("SelectedCompany");
+            }
+        }
+        private Department selectedDepartment;
+        public Department SelectedDepartment
+        {
+            get
+            {
+                return selectedDepartment;
+            }
+            set
+            {
+                selectedDepartment = value;
+                OnPropertyChanged("SelectedDepartment");
+            }
+        }
 
-        public Company SelectedCompany {get;set;} = new Company();
-        public ObservableCollection<Department> SelectedDepartment { get; set; } = new ObservableCollection<Department>();
-        public ObservableCollection<Employee> SelectedEmployee { get; set; } = new ObservableCollection<Employee>();
+        private Employee selectedEmployee;
+        public Employee SelectedEmployee
+        {
+            get
+            {
+                return selectedEmployee;
+            }
+            set
+            {
+                selectedEmployee = value;
+                RenewDepartments(selectedEmployee);
+                FormatDepartments(selectedEmployee);
+                ComboDepartment = selectedEmployee.Department;
+                OnPropertyChanged("SelectedEmployee");
+            }
+        }
+
+        private void RenewDepartments(Employee selectedEmployee)
+        {
+            var companyDepartments = GetCompDeps(selectedEmployee);
+            var departmentsToAdd = new List<Department>();
+
+            foreach (Department department in Context.Departments)
+                if (Departments.FirstOrDefault(d => d.Id == department.Id) == null)
+                    departmentsToAdd.Add(department);
+            foreach (Department dep in departmentsToAdd)
+                Departments.Add(dep);
+        }
+
+        private void FormatDepartments(Employee selectedEmployee)
+        {
+            var companyDepartments = GetCompDeps(selectedEmployee);
+            var departmentsToDelete = new List<Department>();
+
+            foreach (Department department in Departments)
+                if (companyDepartments.FirstOrDefault(d => d.Id == department.Id) == null)
+                    departmentsToDelete.Add(department);
+            foreach (Department dep in departmentsToDelete)
+                Departments.Remove(dep);
+        }
+
+        private List<Department> GetCompDeps(Employee employee)
+        {
+            var departmentId = employee.DepartmentId;
+            var companyId = Context.Departments.FirstOrDefault(d => d.Id == departmentId).CompanyId;
+
+            return Context.Companies.FirstOrDefault(c => c.Id == companyId).Departments.ToList();
+        }
+
+        private Department comboDepartment;
+        public Department ComboDepartment
+        {
+            get
+            {
+                return comboDepartment;
+            }
+            set
+            {
+                comboDepartment = value;
+                OnPropertyChanged("ComboDepartment");
+                if (comboDepartment != null && comboDepartment.Id != SelectedEmployee.DepartmentId)
+                    ChangeDepartment(SelectedEmployee, comboDepartment);
+            }
+        }
+
+        private void ChangeDepartment(Employee selectedEmployee, Department comboDepartment)
+        {
+            var departmentId = Context.Employees.FirstOrDefault(e => e.Id == selectedEmployee.Id).DepartmentId;
+            var department = Context.Departments.FirstOrDefault(d => d.Id == departmentId);
+            department.Employees.Remove(selectedEmployee);
+            var newDepartment = Context.Departments.FirstOrDefault(d => d.Id == comboDepartment.Id);
+            newDepartment.Employees.Add(selectedEmployee);
+            Context.SaveChanges();
+        }
 
         public MainWindowViewModel()
         {
             Context = new CompaniesContext();
             Context.Database.EnsureCreated();
             Companies = new ObservableCollection<Company>(Context.Companies.Include(c=>c.Departments).ThenInclude(d => d.Employees).ToList());
+            Departments = new ObservableCollection<Department>(Context.Departments.ToList());
             Root root = new();
             root.Companies = Companies;
             Roots.Add(root);
@@ -136,6 +229,11 @@ namespace Companies.VMs
         public void EditCommandExecute()
         {
             Context.SaveChanges();
+        }
+
+        public void Rep()
+        {
+            Context.Report();
         }
     }
 

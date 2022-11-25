@@ -21,6 +21,10 @@ namespace Companies.VMs
 
         public ObservableCollection<Root> Roots { get; set; } = new();
         public ObservableCollection<Company> Companies { get; set; } = new ObservableCollection<Company>();
+        public ObservableCollection<Company?> ComboCompanies { get; set; } = new ObservableCollection<Company?>();
+        public ObservableCollection<Department?> ComboDepartments { get; set; } = new ObservableCollection<Department?>();
+        public int selectedExperience { get; set; }
+        public List<int> ComboExperience { get; set; } = new List<int>();
         public ObservableCollection<Department> Departments { get; set; } = new ObservableCollection<Department>();
         public AutoCommand DeleteCommand =>
             new AutoCommand(obj => { DeleteCommandExecute(); },
@@ -97,6 +101,60 @@ namespace Companies.VMs
             }
         }
 
+        private Company? comboCompany;
+        public Company? ComboCompany
+        {
+            get
+            {
+                return comboCompany;
+            }
+            set
+            {
+                comboCompany = value;
+                SetComboDepartments();
+                OnPropertyChanged("ComboCompany");
+            }
+        }
+
+        private Company? comboListCompany;
+        public Company? ComboListCompany
+        {
+            get
+            {
+                return comboListCompany;
+            }
+            set
+            {
+                comboListCompany = value;
+                SetComboDepartments();
+                OnPropertyChanged("ComboListCompany");
+            }
+        }
+
+
+        private Department? comboRepDepartment;
+        public Department? ComboRepDepartment
+        {
+            get
+            {
+                return comboRepDepartment;
+            }
+            set
+            {
+                comboRepDepartment = value;
+                OnPropertyChanged("ComboRepDepartment");
+            }
+        }
+
+        private void SetComboDepartments()
+        {
+            ComboDepartments.Clear();
+            ComboDepartments.Add(new Department() { Name = " " });
+
+            foreach (var item in ComboCompany.Departments)
+                ComboDepartments.Add(item);
+        }
+
         private void RenewDepartments(Employee selectedEmployee)
         {
             var companyDepartments = GetCompDeps(selectedEmployee);
@@ -160,10 +218,26 @@ namespace Companies.VMs
             Context = new CompaniesContext();
             Context.Database.EnsureCreated();
             Companies = new ObservableCollection<Company>(Context.Companies.Include(c=>c.Departments).ThenInclude(d => d.Employees).ToList());
+            SetComboCompanies();
             Departments = new ObservableCollection<Department>(Context.Departments.ToList());
             Root root = new();
             root.Companies = Companies;
             Roots.Add(root);
+        }
+
+        private void SetComboExperience()
+        {
+            for (int i = 0; i < 50; i++)
+                ComboExperience.Add(i);
+        }
+
+        private void SetComboCompanies()
+        {
+            ComboCompanies.Clear();
+            ComboCompanies.Add(new Company() { Name = " "});
+
+            foreach (var item in Companies)
+                ComboCompanies.Add(item);
         }
 
         public void DeleteCommandExecute()
@@ -172,11 +246,13 @@ namespace Companies.VMs
             {
                 RemoveCompanyContext(company);
                 Companies.Remove(company);
+                SetComboCompanies();
             }
             else if (SelectedItem is Department department)
             {
                 RemoveDepartmentContext(department);
                 RemoveDepartmentView(department);
+                SetComboDepartments();
             }
             else if (SelectedItem is Employee employee)
             {
@@ -229,11 +305,6 @@ namespace Companies.VMs
         public void EditCommandExecute()
         {
             Context.SaveChanges();
-        }
-
-        public void Rep()
-        {
-            Context.Report();
         }
     }
 

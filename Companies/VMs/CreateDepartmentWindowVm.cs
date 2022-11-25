@@ -51,6 +51,7 @@ namespace Companies.VMs
             var company = Context.Companies.FirstOrDefault(c => c.Id == SelectedCompany.Id);
             company?.Departments?.Add(CreatedDepartment);
             Context.SaveChanges();
+            SetComboDepartments();
             CloseDepartmentAction();
             ResetDepartmentData();
         }

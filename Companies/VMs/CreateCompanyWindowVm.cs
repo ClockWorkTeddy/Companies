@@ -85,6 +85,7 @@ namespace Companies.VMs
             Context.Companies.Add(newCompany);
             Context.SaveChanges();
             Companies.Add(newCompany);
+            SetComboCompanies();
             CloseCompanyAction();
             ResetCompanyData();
         }

@@ -147,13 +147,13 @@
             </Button>
             <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible vms:Root}}" 
                     Grid.Row="0" Content="Create Company" HorizontalAlignment="Center" Margin="0,0,0,0" 
-                    VerticalAlignment="Top" Click="Button_Click"/>
+                    VerticalAlignment="Top" Click="CreateButtonClick"/>
             <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Company}}" 
                     Grid.Row="0" Content="Create Department" HorizontalAlignment="Center" Margin="0,0,0,0" 
-                    VerticalAlignment="Top" Click="Button_Click"/>
+                    VerticalAlignment="Top" Click="CreateButtonClick"/>
             <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Department}}" 
                     Grid.Row="0" Content="Create Employee" HorizontalAlignment="Center" Margin="0,0,0,0"
-                    VerticalAlignment="Top" Click="Button_Click"/>
+                    VerticalAlignment="Top" Click="CreateButtonClick"/>
             <Button Command="{Binding EditCommand}" Grid.Row="1" Content="Edit" HorizontalAlignment="Center" 
                     Margin="0,0,0,0" VerticalAlignment="Top"/>
             <Button Command="{Binding DeleteCommand}" Grid.Row="2" Content="Delete" 
@@ -162,8 +162,9 @@
             <Border Grid.Row="3" BorderBrush="LightGray" CornerRadius="3" BorderThickness="1" 
                     Margin="10,0,10,0">
                 <Grid>
-                    <Button Command="{Binding SalaryReportCommand}" Content="Salary Report" Click="Button_Click_2"
-                        HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                    <Button Command="{Binding SalaryReportCommand}" Content="Salary Report" 
+                            Click="SalaryReportButtomClick" HorizontalAlignment="Center" Margin="0,10,0,0" 
+                            VerticalAlignment="Top"/>
                     <TextBlock Text="Company:" HorizontalAlignment="Left" Margin="10,0,10,13" 
                                VerticalAlignment="Bottom"/>
                     <ComboBox ItemsSource="{Binding ReportsCompanies, UpdateSourceTrigger=PropertyChanged}" 
@@ -182,7 +183,7 @@
                     Margin="10,10,10,-20">
                 <Grid>
                     <Button Command="{Binding EmloyeeListCommand}"  Content="Employee Report" 
-                    HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="Button_Click_3"/>
+                    HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="EmployeeReportButtonClick"/>
                     <TextBlock Text="Company:" HorizontalAlignment="Left" Margin="10,0,80,43" 
                                VerticalAlignment="Bottom"/>
                     <ComboBox ItemsSource="{Binding ReportsCompanies, UpdateSourceTrigger=PropertyChanged}" 

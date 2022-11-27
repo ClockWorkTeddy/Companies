@@ -30,7 +30,7 @@ namespace Companies
             DataContext = new MainWindowViewModel();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CreateButtonClick(object sender, RoutedEventArgs e)
         {
             if (treeView1.SelectedItem is Root)
             {
@@ -52,13 +52,13 @@ namespace Companies
             }
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void SalaryReportButtomClick(object sender, RoutedEventArgs e)
         {
             SalaryReportWindow salaryReportWindow = new(DataContext);
             salaryReportWindow.Show();
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        private void EmployeeReportButtonClick(object sender, RoutedEventArgs e)
         {
             EmplyeeReportWindow emplyeeReportWindow = new(DataContext);
 

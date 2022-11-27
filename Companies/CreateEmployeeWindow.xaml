@@ -5,10 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vms="clr-namespace:Companies.VMs"
         mc:Ignorable="d"
-        Title="CreateEmployeeWindow" Height="450" Width="800">
+        Title="CreateEmployeeWindow" Height="350" Width="500"
+        Background="#eef7ff">
     <Window.DataContext>
         <vms:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Button.Background" Value="#e1f1ff" />
+            <Setter Property="Button.Height" Value="50" />
+            <Setter Property="Button.Width" Value="160" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"></RowDefinition>
@@ -19,22 +27,39 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid Grid.ColumnSpan="2">
-            <Label Content="Name:" HorizontalAlignment="Left" Margin="36,20,0,0" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Left" Margin="140,20,0,0" TextWrapping="Wrap" Text="{Binding EmployeeName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
-            <Label Content="LastName:" HorizontalAlignment="Left" Margin="36,50,0,0" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Left" Margin="140,50,0,0" TextWrapping="Wrap" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
-            <Label Content="MiddleName:" HorizontalAlignment="Left" Margin="36,80,0,0" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Left" Margin="140,80,0,0" TextWrapping="Wrap" Text="{Binding MiddleName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
-            <Label Content="DateRecruitment:" HorizontalAlignment="Left" Margin="36,110,0,0" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Left" Margin="140,110,0,0" TextWrapping="Wrap" Text="{Binding DateRecruitment, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
-            <Label Content="Birthday:" HorizontalAlignment="Left" Margin="36,140,0,0" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Left" Margin="140,140,0,0" TextWrapping="Wrap" Text="{Binding Birthday, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
-            <Label Content="Position:" HorizontalAlignment="Left" Margin="36,170,0,0" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Left" Margin="140,170,0,0" TextWrapping="Wrap" Text="{Binding Position, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
-            <Label Content="Salary:" HorizontalAlignment="Left" Margin="36,200,0,0" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Left" Margin="140,200,0,0" TextWrapping="Wrap" Text="{Binding Salary, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="360"/>
+            <Label Content="Name:" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top"/>
+            <TextBox HorizontalAlignment="Left" Margin="120,10,0,0" TextWrapping="Wrap" 
+                     Text="{Binding EmployeeName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" 
+                     Width="360"/>
+            <Label Content="LastName:" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top"/>
+            <TextBox HorizontalAlignment="Left" Margin="120,40,0,0" TextWrapping="Wrap" 
+                     Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" 
+                     Width="360"/>
+            <Label Content="MiddleName:" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top"/>
+            <TextBox HorizontalAlignment="Left" Margin="120,70,0,0" TextWrapping="Wrap" 
+                     Text="{Binding MiddleName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" 
+                     Width="360"/>
+            <Label Content="DateRecruitment:" HorizontalAlignment="Left" Margin="10,97,0,0" 
+                   VerticalAlignment="Top"/>
+            <TextBox HorizontalAlignment="Left" Margin="120,100,0,0" TextWrapping="Wrap" 
+                     Text="{Binding DateRecruitment, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" 
+                     Width="360"/>
+            <Label Content="Birthday:" HorizontalAlignment="Left" Margin="10,127,0,0" VerticalAlignment="Top"/>
+            <TextBox HorizontalAlignment="Left" Margin="120,130,0,0" TextWrapping="Wrap" 
+                     Text="{Binding Birthday, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" 
+                     Width="360"/>
+            <Label Content="Position:" HorizontalAlignment="Left" Margin="10,157,0,0" VerticalAlignment="Top"/>
+            <TextBox HorizontalAlignment="Left" Margin="120,160,0,0" TextWrapping="Wrap" 
+                     Text="{Binding Position, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" 
+                     Width="360"/>
+            <Label Content="Salary:" HorizontalAlignment="Left" Margin="10,187,0,0" VerticalAlignment="Top"/>
+            <TextBox HorizontalAlignment="Left" Margin="120,190,0,0" TextWrapping="Wrap" 
+                     Text="{Binding Salary, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" 
+                     Width="360"/>
         </Grid>
-        <Button Command="{Binding AddEmployeeCommand}" Content="Create" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160"/>
-        <Button Command="{Binding CancelEmployeeCommand}" Content="Cancel" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Grid.Column="1"/>
+        <Button Command="{Binding AddEmployeeCommand}" Content="Create" HorizontalAlignment="Center" Grid.Row="3" 
+                VerticalAlignment="Top" Height="50" Width="160"/>
+        <Button Command="{Binding CancelEmployeeCommand}" Content="Cancel" HorizontalAlignment="Center" 
+                Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Grid.Column="1"/>
     </Grid>
 </Window>

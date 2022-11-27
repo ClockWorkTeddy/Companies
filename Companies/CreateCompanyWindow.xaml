@@ -8,32 +8,43 @@
         xmlns:vms="clr-namespace:Companies.VMs"
         xmlns:models="clr-namespace:Companies.Models"
         mc:Ignorable="d"
-        Title="CreateCompanyWindow" Height="270" Width="480">
+        Title="CreateCompanyWindow" Height="220" Width="480"
+        Background="#eef7ff">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Button.Background" Value="#e1f1ff" />
+            <Setter Property="Button.Height" Value="50" />
+            <Setter Property="Button.Width" Value="160" />
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.ColumnSpan="2" Grid.Row="0">
-            <Label Content="Name:" HorizontalAlignment="Left" Margin="32,0,0,0" VerticalAlignment="Center"/>
-            <TextBox HorizontalAlignment="Left" Margin="81,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="360" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Grid.Row="0"/>
+        <TextBox HorizontalAlignment="Left" Margin="60,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                    Width="360" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0"/>
+        <Label Content="Date:" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Grid.Row="0"/>
+        <TextBox HorizontalAlignment="Left" Margin="60,40,0,0" TextWrapping="Wrap" 
+                    Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" 
+                    Width="360" Grid.Row="0"/>
+        <Label Content="Adress:" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" 
+               Grid.Row="0"/>
+        <TextBox HorizontalAlignment="Left" Margin="60,70,0,0" TextWrapping="Wrap" Grid.Row="0"
+                    Text="{Binding Adress, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" 
+                    Width="360"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Command="{Binding AddCompanyCommand}" Content="Create" HorizontalAlignment="Center" 
+                    Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Margin="0,0,0,10"/>
+            <Button Command="{Binding CancelCompanyCommand}" Content="Cancel" HorizontalAlignment="Center" 
+                    Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Grid.Column="1" Margin="0,0,0,10"/>
         </Grid>
-        <Grid Grid.ColumnSpan="2" Grid.Row="1">
-            <Label Content="Date:" HorizontalAlignment="Left" Margin="32,0,0,0" VerticalAlignment="Center"/>
-            <TextBox HorizontalAlignment="Left" Margin="81,0,0,0" TextWrapping="Wrap" Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="360"/>
-        </Grid>
-        <Grid Grid.ColumnSpan="2" Grid.Row="2">
-            <Label Content="Adress:" HorizontalAlignment="Left" Margin="32,0,0,0" VerticalAlignment="Center"/>
-            <TextBox HorizontalAlignment="Left" Margin="81,0,0,0" TextWrapping="Wrap" Text="{Binding Adress, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="360"/>
-        </Grid>
-        <Button Command="{Binding AddCompanyCommand}" Content="Create" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160"/>
-        <Button Command="{Binding CancelCompanyCommand}" Content="Cancel" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Grid.Column="1"/>
 
     </Grid>
 </Window>

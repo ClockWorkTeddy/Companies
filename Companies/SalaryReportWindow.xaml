@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="SalaryReportWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding Path=SalaryReportDTOs, UpdateSourceTrigger=PropertyChanged}">
+        <DataGrid Background="#eef7ff" ItemsSource="{Binding Path=SalaryReportDTOs, 
+                                                               UpdateSourceTrigger=PropertyChanged}">
             
         </DataGrid>
     </Grid>

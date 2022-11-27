@@ -5,10 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vms="clr-namespace:Companies.VMs"
         mc:Ignorable="d"
-        Title="CreateDepartmentWindow" Height="270" Width="480">
+        Title="CreateDepartmentWindow" Height="200" Width="480"
+        Background="#eef7ff">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Button.Background" Value="#e1f1ff" />
+            <Setter Property="Button.Height" Value="50" />
+            <Setter Property="Button.Width" Value="160" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -19,7 +27,9 @@
             <Label Content="Name:" HorizontalAlignment="Left" Margin="32,0,0,0" VerticalAlignment="Center"/>
             <TextBox HorizontalAlignment="Left" Margin="81,0,0,0" TextWrapping="Wrap" Text="{Binding DepartmentName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="360"/>
         </Grid>
-        <Button Command="{Binding AddDepartmentCommand}" Content="Create" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160"/>
-        <Button Command="{Binding CancelDepartmentCommand}" Content="Cancel" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Grid.Column="1"/>
+        <Button Command="{Binding AddDepartmentCommand}" Content="Create" HorizontalAlignment="Center" 
+                Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Margin="0,10,0,0"/>
+        <Button Command="{Binding CancelDepartmentCommand}" Content="Cancel" HorizontalAlignment="Center" 
+                Grid.Row="3" VerticalAlignment="Top" Height="50" Width="160" Grid.Column="1" Margin="0,10,0,0"/>
     </Grid>
 </Window>

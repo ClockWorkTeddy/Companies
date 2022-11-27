@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Companies"
         mc:Ignorable="d"
-        Title="EmplyeeReportWindow" Height="450" Width="800">
-    <Grid>
-        <DataGrid ItemsSource="{Binding Path=EmployeeListDTOs, UpdateSourceTrigger=PropertyChanged}">
+        Title="EmplyeeReportWindow" Height="450" Width="800"
+        >
+    <Grid >
+        <DataGrid Background="#eef7ff" ItemsSource="{Binding Path=EmployeeListDTOs, 
+                                                               UpdateSourceTrigger=PropertyChanged}">
 
         </DataGrid>
     </Grid>

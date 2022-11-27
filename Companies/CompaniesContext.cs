@@ -117,10 +117,10 @@ namespace Companies
                           join dep in Departments on com.Id equals dep.CompanyId
                           join emp in Employees on dep.Id equals emp.DepartmentId
                           where com.Id == companyId && 
-                                DateTime.Now.Year - emp.BirthDay == value &&
-                                DateTime.Now.Year - emp.Date == experience
+                                DateTime.Now.Year - emp.BirthYear == value &&
+                                DateTime.Now.Year - emp.ReqruitmentDate == experience
                           select new EmployeeListDTO(com.Name, dep.Name, emp.Name,
-                                                     emp.Date, emp.BirthDay)).ToList();
+                                                     emp.ReqruitmentDate, emp.BirthYear)).ToList();
             return result;
         }
 
@@ -130,9 +130,9 @@ namespace Companies
                           join dep in Departments on com.Id equals dep.CompanyId
                           join emp in Employees on dep.Id equals emp.DepartmentId
                           where com.Id == companyId && 
-                                DateTime.Now.Year - emp.Date == experience
+                                DateTime.Now.Year - emp.ReqruitmentDate == experience
                           select new EmployeeListDTO(com.Name, dep.Name, emp.Name,
-                                                     emp.Date, emp.BirthDay)).ToList();
+                                                     emp.ReqruitmentDate, emp.BirthYear)).ToList();
             return result;
         }
 
@@ -142,9 +142,9 @@ namespace Companies
                           join dep in Departments on com.Id equals dep.CompanyId
                           join emp in Employees on dep.Id equals emp.DepartmentId
                           where com.Id == companyId && 
-                                DateTime.Now.Year - emp.BirthDay == value
+                                DateTime.Now.Year - emp.BirthYear == value
                           select new EmployeeListDTO(com.Name, dep.Name, emp.Name, 
-                                                     emp.Date, emp.BirthDay)).ToList();
+                                                     emp.ReqruitmentDate, emp.BirthYear)).ToList();
             return result;
         }
 
@@ -154,10 +154,10 @@ namespace Companies
             var result = (from com in Companies
                           join dep in Departments on com.Id equals dep.CompanyId
                           join emp in Employees on dep.Id equals emp.DepartmentId
-                          where emp.BirthDay == value && com.Id == companyId &&
-                                DateTime.Now.Year - emp.Date == experience
+                          where emp.BirthYear == value && com.Id == companyId &&
+                                DateTime.Now.Year - emp.ReqruitmentDate == experience
                           select new EmployeeListDTO(com.Name, dep.Name, emp.Name,
-                                                     emp.Date, emp.BirthDay)).ToList();
+                                                     emp.ReqruitmentDate, emp.BirthYear)).ToList();
             return result;
         }
 
@@ -167,9 +167,9 @@ namespace Companies
                           join dep in Departments on com.Id equals dep.CompanyId
                           join emp in Employees on dep.Id equals emp.DepartmentId
                           where com.Id == companyId && 
-                                DateTime.Now.Year - emp.Date == experience
+                                DateTime.Now.Year - emp.ReqruitmentDate == experience
                           select new EmployeeListDTO(com.Name, dep.Name, emp.Name,
-                                                     emp.Date, emp.BirthDay)).ToList();
+                                                     emp.ReqruitmentDate, emp.BirthYear)).ToList();
             return result;
         }
 
@@ -178,10 +178,10 @@ namespace Companies
             var result = (from com in Companies
                           join dep in Departments on com.Id equals dep.CompanyId
                           join emp in Employees on dep.Id equals emp.DepartmentId
-                          where emp.BirthDay == value &&
+                          where emp.BirthYear == value &&
                                 com.Id == companyId
                           select new EmployeeListDTO(com.Name, dep.Name, emp.Name,
-                                                     emp.Date, emp.BirthDay)).ToList();
+                                                     emp.ReqruitmentDate, emp.BirthYear)).ToList();
             return result;
         }
 
@@ -192,7 +192,7 @@ namespace Companies
                           join emp in Employees on dep.Id equals emp.DepartmentId
                           where com.Id == companyId
                           select new EmployeeListDTO(com.Name, dep.Name, emp.Name,
-                                                     emp.Date, emp.BirthDay)).ToList();
+                                                     emp.ReqruitmentDate, emp.BirthYear)).ToList();
             return result;
         }
     }

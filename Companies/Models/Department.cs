@@ -15,9 +15,7 @@ namespace Companies.Models
         public int CompanyId { get; set; }
         public virtual Company? Company { get; set; }
 
-        public virtual ICollection<Employee>? 
-            Employees 
-        { get; private set; } = 
+        public virtual ICollection<Employee>? Employees { get; private set; } = 
             new ObservableCollection<Employee>();
 
         public override string ToString()

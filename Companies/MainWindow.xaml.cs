@@ -57,5 +57,14 @@ namespace Companies
             SalaryReportWindow salaryReportWindow = new(DataContext);
             salaryReportWindow.Show();
         }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            EmplyeeReportWindow emplyeeReportWindow = new(DataContext);
+
+            if (((MainWindowViewModel)DataContext).ComboListCompany != null &&
+                ((MainWindowViewModel)DataContext).ComboListCompany.Name != " ")
+                emplyeeReportWindow.Show();
+        }
     }
 }

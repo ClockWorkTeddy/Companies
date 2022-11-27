@@ -135,10 +135,10 @@ namespace Companies.VMs
             {
                 Name = this.EmployeeName,
                 Lastname = this.LastName,
-                BirthDay = this.Birthday,
+                BirthDay = Convert.ToInt32(this.Birthday),
                 Salary = this.Salary,
                 Middlename = this.MiddleName,
-                Date = this.DateRecruitment,
+                Date = Convert.ToInt32(this.DateRecruitment),
                 Position = this.Position,
             };
             SelectedDepartment.Employees.Add(CreatedEmployee);

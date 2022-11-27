@@ -7,7 +7,8 @@
         xmlns:models="clr-namespace:Companies.Models" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="600" Width="600"
+        Background="#eef7ff">
     <Window.DataContext>
         <vms:MainWindowViewModel/>
     </Window.DataContext>
@@ -15,15 +16,21 @@
         <vms:DepartmentVisibleConverter x:Key="depVisConverter"/>
         <vms:EmployeeVisibleConverter x:Key="empVisConverter"/>
         <vms:ToArrayConverter x:Key="toArrConverter"/>
+        <vms:IntToComboExperienceConverter x:Key="comboToIntConverter"/>
+        <Style TargetType="Button">
+            <Setter Property="Button.Background" Value="#e1f1ff" />
+            <Setter Property="Button.Height" Value="50" />
+            <Setter Property="Button.Width" Value="280" />
+        </Style>
     </Window.Resources>
     <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="1.5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TreeView Grid.Column="0" Name="treeView1" 
                   ItemsSource="{Binding Roots, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                  Margin="0,0,0,220">
+                  Margin="10,10,0,220" Background="#eef7ff">
             <i:Interaction.Behaviors>
                 <vms:SelectedItemBinding SelectedItem="{Binding SelectedItem, Mode=TwoWay}"/>
             </i:Interaction.Behaviors>
@@ -48,7 +55,9 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-        <Canvas Grid.Column="0" Margin="0,340,0,0" Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Company}}">
+        <Canvas Grid.Column="0" Margin="0,0,0,220" 
+                Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Company}}"
+                VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
                 <TextBlock Text="Id: "></TextBlock>
                 <TextBlock Text="{Binding SelectedCompany.Id, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
@@ -66,7 +75,9 @@
                 <TextBox Text="{Binding SelectedCompany.Adress, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             </StackPanel>
         </Canvas>
-        <Canvas Grid.Column="0" Margin="0, 340, 0, 50" Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Department}}">
+        <Canvas Grid.Column="0" Margin="0, 0, 0, 220" 
+                Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Department}}"
+                VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
                 <TextBlock Text="Id: "></TextBlock>
                 <TextBlock Text="{Binding SelectedDepartment.Id, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
@@ -76,7 +87,9 @@
                 <TextBox Text="{Binding SelectedDepartment.Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             </StackPanel>
         </Canvas>
-        <Canvas Grid.Column="0" Margin="0, 340, 0, 50" Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Employee}}">
+        <Canvas Grid.Column="0" Margin="0, 0, 0, 220" 
+                Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Employee}}"
+                VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
                 <TextBlock Text="Id: "></TextBlock>
                 <TextBlock Text="{Binding SelectedEmployee.Id, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
@@ -111,17 +124,85 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10, 170, 0, 0">
                 <TextBlock Text="Department: "></TextBlock>
-                <ComboBox ItemsSource="{Binding Departments, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComboDepartment, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                <ComboBox ItemsSource="{Binding Departments, UpdateSourceTrigger=PropertyChanged}" 
+                          SelectedItem="{Binding ComboDepartment, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
             </StackPanel>
         </Canvas>
-
-        <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible vms:Root}}" Grid.Column="1" Content="Create Company" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
-        <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Company}}" Grid.Column="1" Content="Create Department" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
-        <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Department}}" Grid.Column="1" Content="Create Employee" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click"/>
-        <Button Command="{Binding EditCommand}" Grid.Column="1" Content="Edit" HorizontalAlignment="Center" Margin="0,95,0,0" VerticalAlignment="Top" Height="50" Width="160"/>
-        <Button Command="{Binding DeleteCommand}" Grid.Column="1" Content="Delete" HorizontalAlignment="Center" Margin="0,165,0,0" VerticalAlignment="Top" Height="50" Width="160"/>
-        <Button Command="{Binding SalaryReportCommand}" Grid.Column="1" Content="Report 1" HorizontalAlignment="Center" Margin="0,235,0,0" VerticalAlignment="Top" Height="50" Width="160" Click="Button_Click_2"/>
-        <ComboBox ItemsSource="{Binding ComboCompanies, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComboCompany, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,295,0,0" VerticalAlignment="Top"></ComboBox>
-        <ComboBox ItemsSource="{Binding ComboDepartments, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComboRepDepartment, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" HorizontalAlignment="Left" Margin="100,295,0,0" VerticalAlignment="Top"></ComboBox>
+        <Grid Grid.Column="1" Margin="0, 10, 0, 150">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition Height="120"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button Visibility="Visible" Grid.Row="0" Content="Create" HorizontalAlignment="Center" 
+                    Margin="0,0,0,0" VerticalAlignment="Top" IsEnabled="False">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible vms:Root}}" 
+                    Grid.Row="0" Content="Create Company" HorizontalAlignment="Center" Margin="0,0,0,0" 
+                    VerticalAlignment="Top" Click="Button_Click"/>
+            <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Company}}" 
+                    Grid.Row="0" Content="Create Department" HorizontalAlignment="Center" Margin="0,0,0,0" 
+                    VerticalAlignment="Top" Click="Button_Click"/>
+            <Button Visibility="{Binding SelectedItem, Converter={vms:TypeEqualsToVisible models:Department}}" 
+                    Grid.Row="0" Content="Create Employee" HorizontalAlignment="Center" Margin="0,0,0,0"
+                    VerticalAlignment="Top" Click="Button_Click"/>
+            <Button Command="{Binding EditCommand}" Grid.Row="1" Content="Edit" HorizontalAlignment="Center" 
+                    Margin="0,0,0,0" VerticalAlignment="Top"/>
+            <Button Command="{Binding DeleteCommand}" Grid.Row="2" Content="Delete" 
+                    HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Height="50" 
+                    Width="280"/>
+            <Border Grid.Row="3" BorderBrush="LightGray" CornerRadius="3" BorderThickness="1" 
+                    Margin="10,0,10,0">
+                <Grid>
+                    <Button Command="{Binding SalaryReportCommand}" Content="Salary Report" Click="Button_Click_2"
+                        HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                    <TextBlock Text="Company:" HorizontalAlignment="Left" Margin="10,0,10,13" 
+                               VerticalAlignment="Bottom"/>
+                    <ComboBox ItemsSource="{Binding ComboCompanies, UpdateSourceTrigger=PropertyChanged}" 
+                            SelectedItem="{Binding ComboCompany, UpdateSourceTrigger=PropertyChanged}" 
+                             HorizontalAlignment="Left" Margin="70,0,10,10" VerticalAlignment="Bottom"/>
+                    <TextBlock Text="Department:" HorizontalAlignment="Right" Margin="10,0,80,13" 
+                               VerticalAlignment="Bottom"/>
+                    <ComboBox ItemsSource="{Binding ComboDepartments, UpdateSourceTrigger=PropertyChanged}" 
+                            SelectedItem="{Binding ComboRepDepartment, UpdateSourceTrigger=PropertyChanged}" 
+                            HorizontalAlignment="Right" Margin="10,0,10,10" VerticalAlignment="Bottom"/>
+                </Grid>
+            </Border>
+            <Border Grid.Row="4" BorderBrush="LightGray" CornerRadius="3" BorderThickness="1" VerticalAlignment="Stretch"
+                    Margin="10,10,10,-20">
+                <Grid>
+                    <Button Command="{Binding EmloyeeListCommand}"  Content="Employee Report" 
+                    HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="Button_Click_3"/>
+                    <TextBlock Text="Company:" HorizontalAlignment="Left" Margin="10,0,80,43" 
+                               VerticalAlignment="Bottom"/>
+                    <ComboBox ItemsSource="{Binding ComboCompanies, UpdateSourceTrigger=PropertyChanged}" 
+                      SelectedItem="{Binding ComboListCompany, UpdateSourceTrigger=PropertyChanged}" 
+                      HorizontalAlignment="Left" Margin="70,0,0,40" VerticalAlignment="Bottom"/>
+                    <TextBlock Text="Experience:" HorizontalAlignment="Right" Margin="0,0,60,43" 
+                               VerticalAlignment="Bottom"/>
+                    <ComboBox ItemsSource="{Binding ComboExperience, UpdateSourceTrigger=PropertyChanged}" 
+                      SelectedItem="{Binding SelectedExperience, Converter={StaticResource comboToIntConverter}, 
+                                     UpdateSourceTrigger=PropertyChanged}"  
+                      HorizontalAlignment="Right" Margin="0,0,10,40" VerticalAlignment="Bottom"></ComboBox>
+                    <TextBlock Text="Mode:" HorizontalAlignment="Left" Margin="10,0,80,13" 
+                               VerticalAlignment="Bottom"/>
+                    <ComboBox ItemsSource="{Binding AgeSelector, UpdateSourceTrigger=PropertyChanged}" 
+                      SelectedItem="{Binding AgeSelection, UpdateSourceTrigger=PropertyChanged}" 
+                      HorizontalAlignment="Left" Margin="50,0,0,10" VerticalAlignment="Bottom"/>
+                    <TextBlock Text="Value:" HorizontalAlignment="Right" Margin="0,0,70,13" 
+                               VerticalAlignment="Bottom"/>
+                    <ComboBox ItemsSource="{Binding AgeValues, UpdateSourceTrigger=PropertyChanged}" 
+                      SelectedItem="{Binding SelectedAge, UpdateSourceTrigger=PropertyChanged}" 
+                      HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom"/>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

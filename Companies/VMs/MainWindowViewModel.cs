@@ -20,12 +20,18 @@ namespace Companies.VMs
         private CompaniesContext Context;
 
         public ObservableCollection<Root> Roots { get; set; } = new();
-        public ObservableCollection<Company> Companies { get; set; } = new ObservableCollection<Company>();
-        public ObservableCollection<Company?> ComboCompanies { get; set; } = new ObservableCollection<Company?>();
-        public ObservableCollection<Department?> ComboDepartments { get; set; } = new ObservableCollection<Department?>();
-        public int selectedExperience { get; set; }
-        public List<int> ComboExperience { get; set; } = new List<int>();
-        public ObservableCollection<Department> Departments { get; set; } = new ObservableCollection<Department>();
+        public ObservableCollection<Company> Companies { get; set; } 
+            = new ObservableCollection<Company>();
+        public ObservableCollection<Company?> ComboCompanies { get; set; } 
+            = new ObservableCollection<Company?>();
+        public ObservableCollection<Department?> ComboDepartments { get; set; } 
+            = new ObservableCollection<Department?>();
+        public List<string> AgeSelector { get; set; } = new List<string>() { "Age", "Birth Year"};
+        public ObservableCollection<ComboExperienceDTO> ComboExperience { get; set; } 
+            = new ObservableCollection<ComboExperienceDTO>();
+        public ObservableCollection<int> AgeValues { get; set; } = new ObservableCollection<int>();
+        public ObservableCollection<Department> Departments { get; set; } 
+            = new ObservableCollection<Department>();
         public AutoCommand DeleteCommand =>
             new AutoCommand(obj => { DeleteCommandExecute(); },
                             obj =>  DeleteCommandCanExecute());
@@ -101,6 +107,21 @@ namespace Companies.VMs
             }
         }
 
+        private int selectedExperience;
+        public int SelectedExperience 
+        { 
+            get
+            {
+                return selectedExperience;
+            } 
+            set
+            {
+                selectedExperience = value;
+                OnPropertyChanged("SelectedExperience");
+            }
+        }
+
+
         private Company? comboCompany;
         public Company? ComboCompany
         {
@@ -116,6 +137,7 @@ namespace Companies.VMs
             }
         }
 
+       
         private Company? comboListCompany;
         public Company? ComboListCompany
         {
@@ -126,7 +148,6 @@ namespace Companies.VMs
             set
             {
                 comboListCompany = value;
-                SetComboDepartments();
                 OnPropertyChanged("ComboListCompany");
             }
         }
@@ -146,14 +167,64 @@ namespace Companies.VMs
             }
         }
 
+        private int? selectedAge;
+        public int? SelectedAge
+        {
+            get
+            {
+                return selectedAge;
+            }
+            set
+            {
+                selectedAge = value;
+                OnPropertyChanged("SelectedAge");
+            }
+        }
+
+        private string ageSelection;
+        public string AgeSelection
+        {
+            get
+            {
+                return ageSelection;
+            }
+            set
+            {
+                ageSelection = value;
+                AgeValuesUpdate(ageSelection);
+                OnPropertyChanged("AgeSelection");
+            }
+        }
+
+        public void SetCombpoExperience()
+        {
+            for (int i = -1; i < 48; i++)
+                ComboExperience.Add(new ComboExperienceDTO(i));
+        }
+
+        private void AgeValuesUpdate(string ageSelection)
+        {
+            AgeValues.Clear();
+
+            int start = ageSelection == "Age" ? 18 : 1957;
+            int limit = ageSelection == "Age" ? 65 : 2004;
+
+            for (int i = start; i < limit; i++)
+                AgeValues.Add(i);
+        }
+
         private void SetComboDepartments()
         {
-            ComboDepartments.Clear();
-            ComboDepartments.Add(new Department() { Name = " " });
+            if (ComboCompany != null)
+            {
+                ComboDepartments.Clear();
+                ComboDepartments.Add(new Department() { Name = " " });
 
-            foreach (var item in ComboCompany.Departments)
-                ComboDepartments.Add(item);
+                foreach (var item in ComboCompany.Departments)
+                    ComboDepartments.Add(item);
+            }
         }
+
 
         private void RenewDepartments(Employee selectedEmployee)
         {
@@ -219,16 +290,12 @@ namespace Companies.VMs
             Context.Database.EnsureCreated();
             Companies = new ObservableCollection<Company>(Context.Companies.Include(c=>c.Departments).ThenInclude(d => d.Employees).ToList());
             SetComboCompanies();
+            SetCombpoExperience();
+            SelectedExperience = -1;
             Departments = new ObservableCollection<Department>(Context.Departments.ToList());
             Root root = new();
             root.Companies = Companies;
             Roots.Add(root);
-        }
-
-        private void SetComboExperience()
-        {
-            for (int i = 0; i < 50; i++)
-                ComboExperience.Add(i);
         }
 
         private void SetComboCompanies()
@@ -299,7 +366,9 @@ namespace Companies.VMs
 
         public bool DeleteCommandCanExecute()
         {
-            return SelectedItem != null;
+            return SelectedItem != null && (SelectedItem is Company || 
+                                            SelectedItem is Department|| 
+                                            SelectedItem is Employee);
         }
 
         public void EditCommandExecute()
@@ -308,4 +377,18 @@ namespace Companies.VMs
         }
     }
 
+    public class ComboExperienceDTO
+    {
+        public int Value { get; set; }
+
+        public ComboExperienceDTO(int value)
+        {
+            Value = value;
+        }
+
+        public override string ToString()
+        {
+            return Value >= 0 ? Value.ToString() : " ";
+        }
+    }
 }

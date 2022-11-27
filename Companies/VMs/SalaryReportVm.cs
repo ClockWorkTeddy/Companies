@@ -13,7 +13,7 @@ namespace Companies.VMs
         public ObservableCollection<SalaryReportDTO> SalaryReportDTOs { get; set; } = new ObservableCollection<SalaryReportDTO>();
 
         public AutoCommand SalaryReportCommand =>
-            new AutoCommand(obj => { SalaryReportExecute(); });
+            new AutoCommand(obj => { SalaryReportExecute(); },  obj => SalaryReportCanExecute());
 
         private bool SalaryReportCanExecute()
         {
@@ -30,11 +30,11 @@ namespace Companies.VMs
 
             if (companyId != 0)
                 if (departmentId != 0)
-                    reportResult = Context.Report(companyId, departmentId);
+                    reportResult = Context.SalaryReport(companyId, departmentId);
                 else
-                    reportResult = Context.Report(companyId);
+                    reportResult = Context.SalaryReport(companyId);
             else
-                reportResult = Context.Report();
+                reportResult = Context.SalaryReport();
 
             SalaryReportDTOs.Clear();
 

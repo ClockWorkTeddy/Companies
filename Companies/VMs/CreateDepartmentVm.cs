@@ -16,12 +16,7 @@ namespace Companies.VMs
         public AutoCommand CancelDepartmentCommand =>
             new AutoCommand(obj => { CancelDepartmentCommandExecute(); });
 
-        private void CancelDepartmentCommandExecute()
-        {
-            CloseDepartmentAction();
-        }
         public Action CloseDepartmentAction { get; set; }
-
 
         private string departmentName;
         public string DepartmentName
@@ -33,9 +28,12 @@ namespace Companies.VMs
             set
             {
                 departmentName = value;
-                OnPropertyChanged("DepartmentName");
+                OnPropertyChanged(nameof(DepartmentName));
             }
         }
+
+        private void CancelDepartmentCommandExecute() =>
+            CloseDepartmentAction();
 
         private bool AddDepartmentCanExecute()
         {
@@ -46,7 +44,7 @@ namespace Companies.VMs
         {
             CreatedDepartment = new Department()
             {
-                Name = this.DepartmentName,
+                Name = DepartmentName,
             };
             var company = Context.Companies.FirstOrDefault(c => c.Id == SelectedCompany.Id);
             company?.Departments?.Add(CreatedDepartment);
@@ -55,5 +53,8 @@ namespace Companies.VMs
             CloseDepartmentAction();
             ResetDepartmentData();
         }
+
+        private void ResetDepartmentData() =>
+            DepartmentName = "";
     }
 }

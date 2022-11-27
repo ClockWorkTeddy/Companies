@@ -18,31 +18,29 @@ namespace Companies.VMs
     public partial class MainWindowViewModel : ViewModelBase
     {
         private CompaniesContext Context;
-
+        public List<string> AgeSelector { get; set; } = new List<string>() { "Age", "Birth Year" };
         public ObservableCollection<Root> Roots { get; set; } = new();
         public ObservableCollection<Company> Companies { get; set; } 
             = new ObservableCollection<Company>();
-        public ObservableCollection<Company?> ComboCompanies { get; set; } 
+        public ObservableCollection<Company?> ReportsCompanies { get; set; } 
             = new ObservableCollection<Company?>();
-        public ObservableCollection<Department?> ComboDepartments { get; set; } 
+        public ObservableCollection<Department?> SalaryReportDepartments { get; set; } 
             = new ObservableCollection<Department?>();
-        public List<string> AgeSelector { get; set; } = new List<string>() { "Age", "Birth Year"};
         public ObservableCollection<ComboExperienceDTO> ComboExperience { get; set; } 
             = new ObservableCollection<ComboExperienceDTO>();
         public ObservableCollection<int> AgeValues { get; set; } = new ObservableCollection<int>();
-        public ObservableCollection<Department> Departments { get; set; } 
+        public ObservableCollection<Department> EmployeeInfoDepartments { get; set; } 
             = new ObservableCollection<Department>();
+
         public AutoCommand DeleteCommand =>
-            new AutoCommand(obj => { DeleteCommandExecute(); },
-                            obj =>  DeleteCommandCanExecute());
+            new AutoCommand(obj => { DeleteCommandExecute(); }, obj =>  DeleteCommandCanExecute());
 
         public AutoCommand EditCommand =>
             new AutoCommand(obj => { EditCommandExecute(); });
 
+        private object? selectedItem;
 
-        private object selectedItem;
-
-        public object SelectedItem
+        public object? SelectedItem
         {
             get
             {
@@ -51,20 +49,19 @@ namespace Companies.VMs
             set
             {
                 selectedItem = value;
-                OnPropertyChanged("SelectedItem");
+                OnPropertyChanged(nameof(SelectedItem));
 
                 if (value is Company company)
                     SelectedCompany = company;
                 else if (value is Department department)
                     SelectedDepartment = department;
                 else if (value is Employee employee)
-                {
                     SelectedEmployee = employee;
-                }
             }
         }
-        private Company selectedCompany;
-        public Company SelectedCompany
+
+        private Company? selectedCompany;
+        public Company? SelectedCompany
         {
             get
             {
@@ -73,11 +70,12 @@ namespace Companies.VMs
             set
             {
                 selectedCompany = value;
-                OnPropertyChanged("SelectedCompany");
+                OnPropertyChanged(nameof(SelectedCompany));
             }
         }
-        private Department selectedDepartment;
-        public Department SelectedDepartment
+
+        private Department? selectedDepartment;
+        public Department? SelectedDepartment
         {
             get
             {
@@ -86,12 +84,12 @@ namespace Companies.VMs
             set
             {
                 selectedDepartment = value;
-                OnPropertyChanged("SelectedDepartment");
+                OnPropertyChanged(nameof(SelectedDepartment));
             }
         }
 
-        private Employee selectedEmployee;
-        public Employee SelectedEmployee
+        private Employee? selectedEmployee;
+        public Employee? SelectedEmployee
         {
             get
             {
@@ -100,15 +98,38 @@ namespace Companies.VMs
             set
             {
                 selectedEmployee = value;
-                RenewDepartments(selectedEmployee);
-                FormatDepartments(selectedEmployee);
-                ComboDepartment = selectedEmployee.Department;
-                OnPropertyChanged("SelectedEmployee");
+                if (selectedEmployee != null)
+                {
+                    RenewEmployeeInfoDepartments(selectedEmployee);
+                    FormatEmployeeInfoDepartments(selectedEmployee);
+                }
+
+                if (selectedEmployee?.Department != null)
+                    EmployeeInfoSelectedDepartment = selectedEmployee.Department;
+
+                OnPropertyChanged(nameof(SelectedEmployee));
             }
         }
 
-        private int selectedExperience;
-        public int SelectedExperience 
+        private Department? employeeInfoSelectedDepartment;
+        public Department? EmployeeInfoSelectedDepartment
+        {
+            get
+            {
+                return employeeInfoSelectedDepartment;
+            }
+            set
+            {
+                employeeInfoSelectedDepartment = value;
+                OnPropertyChanged(nameof(EmployeeInfoSelectedDepartment));
+                if (employeeInfoSelectedDepartment != null && 
+                    employeeInfoSelectedDepartment.Id != SelectedEmployee.DepartmentId)
+                    ChangeDepartment(SelectedEmployee, employeeInfoSelectedDepartment);
+            }
+        }
+
+        private int? selectedExperience;
+        public int? SelectedExperience 
         { 
             get
             {
@@ -117,23 +138,22 @@ namespace Companies.VMs
             set
             {
                 selectedExperience = value;
-                OnPropertyChanged("SelectedExperience");
+                OnPropertyChanged(nameof(SelectedExperience));
             }
         }
 
-
-        private Company? comboCompany;
-        public Company? ComboCompany
+        private Company? salaryReportSelectedCompany;
+        public Company? SalaryReportSelectedCompany
         {
             get
             {
-                return comboCompany;
+                return salaryReportSelectedCompany;
             }
             set
             {
-                comboCompany = value;
+                salaryReportSelectedCompany = value;
                 SetComboDepartments();
-                OnPropertyChanged("ComboCompany");
+                OnPropertyChanged(nameof(SalaryReportSelectedCompany));
             }
         }
 
@@ -148,22 +168,21 @@ namespace Companies.VMs
             set
             {
                 comboListCompany = value;
-                OnPropertyChanged("ComboListCompany");
+                OnPropertyChanged(nameof(ComboListCompany));
             }
         }
 
-
-        private Department? comboRepDepartment;
-        public Department? ComboRepDepartment
+        private Department? salaryReportSelectedDepartment;
+        public Department? SalaryReportSelectedDepartment
         {
             get
             {
-                return comboRepDepartment;
+                return salaryReportSelectedDepartment;
             }
             set
             {
-                comboRepDepartment = value;
-                OnPropertyChanged("ComboRepDepartment");
+                salaryReportSelectedDepartment = value;
+                OnPropertyChanged(nameof(SalaryReportSelectedDepartment));
             }
         }
 
@@ -177,12 +196,12 @@ namespace Companies.VMs
             set
             {
                 selectedAge = value;
-                OnPropertyChanged("SelectedAge");
+                OnPropertyChanged(nameof(SelectedAge));
             }
         }
 
-        private string ageSelection;
-        public string AgeSelection
+        private string? ageSelection;
+        public string? AgeSelection
         {
             get
             {
@@ -192,7 +211,7 @@ namespace Companies.VMs
             {
                 ageSelection = value;
                 AgeValuesUpdate(ageSelection);
-                OnPropertyChanged("AgeSelection");
+                OnPropertyChanged(nameof(AgeSelection));
             }
         }
 
@@ -215,96 +234,84 @@ namespace Companies.VMs
 
         private void SetComboDepartments()
         {
-            if (ComboCompany != null)
+            if (SalaryReportSelectedCompany != null)
             {
-                ComboDepartments.Clear();
-                ComboDepartments.Add(new Department() { Name = " " });
+                SalaryReportDepartments.Clear();
+                SalaryReportDepartments.Add(new Department() { Name = " " });
 
-                foreach (var item in ComboCompany.Departments)
-                    ComboDepartments.Add(item);
+                foreach (var item in SalaryReportSelectedCompany?.Departments)
+                    SalaryReportDepartments.Add(item);
             }
         }
 
-
-        private void RenewDepartments(Employee selectedEmployee)
+        private void RenewEmployeeInfoDepartments(Employee selectedEmployee)
         {
-            var companyDepartments = GetCompDeps(selectedEmployee);
+            var companyDepartments = GetCompanysDepartmentsList(selectedEmployee);
             var departmentsToAdd = new List<Department>();
 
             foreach (Department department in Context.Departments)
-                if (Departments.FirstOrDefault(d => d.Id == department.Id) == null)
+                if (EmployeeInfoDepartments.FirstOrDefault(d => d.Id == department.Id) == null)
                     departmentsToAdd.Add(department);
             foreach (Department dep in departmentsToAdd)
-                Departments.Add(dep);
+                EmployeeInfoDepartments.Add(dep);
         }
 
-        private void FormatDepartments(Employee selectedEmployee)
+        private void FormatEmployeeInfoDepartments(Employee selectedEmployee)
         {
-            var companyDepartments = GetCompDeps(selectedEmployee);
+            var companyDepartments = GetCompanysDepartmentsList(selectedEmployee);
             var departmentsToDelete = new List<Department>();
 
-            foreach (Department department in Departments)
+            foreach (Department department in EmployeeInfoDepartments)
                 if (companyDepartments.FirstOrDefault(d => d.Id == department.Id) == null)
                     departmentsToDelete.Add(department);
             foreach (Department dep in departmentsToDelete)
-                Departments.Remove(dep);
+                EmployeeInfoDepartments.Remove(dep);
         }
 
-        private List<Department> GetCompDeps(Employee employee)
+        private List<Department> GetCompanysDepartmentsList(Employee employee)
         {
             var departmentId = employee.DepartmentId;
-            var companyId = Context.Departments.FirstOrDefault(d => d.Id == departmentId).CompanyId;
+            var companyId = Context?.Departments?.FirstOrDefault(d => d.Id == departmentId).CompanyId;
 
             return Context.Companies.FirstOrDefault(c => c.Id == companyId).Departments.ToList();
         }
 
-        private Department comboDepartment;
-        public Department ComboDepartment
-        {
-            get
-            {
-                return comboDepartment;
-            }
-            set
-            {
-                comboDepartment = value;
-                OnPropertyChanged("ComboDepartment");
-                if (comboDepartment != null && comboDepartment.Id != SelectedEmployee.DepartmentId)
-                    ChangeDepartment(SelectedEmployee, comboDepartment);
-            }
-        }
-
         private void ChangeDepartment(Employee selectedEmployee, Department comboDepartment)
         {
-            var departmentId = Context.Employees.FirstOrDefault(e => e.Id == selectedEmployee.Id).DepartmentId;
-            var department = Context.Departments.FirstOrDefault(d => d.Id == departmentId);
-            department.Employees.Remove(selectedEmployee);
-            var newDepartment = Context.Departments.FirstOrDefault(d => d.Id == comboDepartment.Id);
-            newDepartment.Employees.Add(selectedEmployee);
-            Context.SaveChanges();
+            var departmentId = Context?.Employees?.FirstOrDefault(e => e.Id == selectedEmployee.Id)
+                                ?.DepartmentId;
+            var department = Context?.Departments?.FirstOrDefault(d => d.Id == departmentId);
+
+            department?.Employees?.Remove(selectedEmployee);
+
+            var newDepartment = Context?.Departments.FirstOrDefault(d => d.Id == comboDepartment.Id);
+            newDepartment?.Employees?.Add(selectedEmployee);
+            Context?.SaveChanges();
         }
 
         public MainWindowViewModel()
         {
             Context = new CompaniesContext();
             Context.Database.EnsureCreated();
-            Companies = new ObservableCollection<Company>(Context.Companies.Include(c=>c.Departments).ThenInclude(d => d.Employees).ToList());
-            SetComboCompanies();
+            Companies = new ObservableCollection<Company>(Context.Companies
+                                                         .Include(c=>c.Departments)
+                                                         .ThenInclude(d => d.Employees).ToList());
+            SetReportsCompanies();
             SetCombpoExperience();
             SelectedExperience = -1;
-            Departments = new ObservableCollection<Department>(Context.Departments.ToList());
+            EmployeeInfoDepartments = new ObservableCollection<Department>(Context.Departments.ToList());
             Root root = new();
             root.Companies = Companies;
             Roots.Add(root);
         }
 
-        private void SetComboCompanies()
+        private void SetReportsCompanies()
         {
-            ComboCompanies.Clear();
-            ComboCompanies.Add(new Company() { Name = " "});
+            ReportsCompanies.Clear();
+            ReportsCompanies.Add(new Company() { Name = " "});
 
             foreach (var item in Companies)
-                ComboCompanies.Add(item);
+                ReportsCompanies.Add(item);
         }
 
         public void DeleteCommandExecute()
@@ -313,7 +320,7 @@ namespace Companies.VMs
             {
                 RemoveCompanyContext(company);
                 Companies.Remove(company);
-                SetComboCompanies();
+                SetReportsCompanies();
             }
             else if (SelectedItem is Department department)
             {

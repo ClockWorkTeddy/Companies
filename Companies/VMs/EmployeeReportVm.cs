@@ -11,14 +11,16 @@ namespace Companies.VMs
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
-        public ObservableCollection<EmployeeListDTO> EmployeeListDTOs { get; set; } = new ObservableCollection<EmployeeListDTO>();
+        public ObservableCollection<EmployeeListDTO> EmployeeListDTOs { get; set; } = 
+            new ObservableCollection<EmployeeListDTO>();
 
         public AutoCommand EmloyeeListCommand =>
             new AutoCommand(obj => { EmloyeeListExecute(); });
+
         private void EmloyeeListExecute()
         {
             int companyId = ComboListCompany == null ? 0 : ComboListCompany.Id;
-            int experience = SelectedExperience;
+            int? experience = SelectedExperience;
             List<EmployeeListDTO> reportResult = new List<EmployeeListDTO>();
 
             if (companyId != 0)

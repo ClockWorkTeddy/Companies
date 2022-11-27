@@ -96,36 +96,37 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10, 30, 0, 0">
                 <TextBlock Text="Name: "></TextBlock>
-                <TextBox Text="{Binding SelectedEmployee.Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding SelectedEmployee.Name, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10, 50, 0, 0">
                 <TextBlock Text="Lastname: "></TextBlock>
-                <TextBox Text="{Binding SelectedEmployee.Lastname, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding SelectedEmployee.Lastname, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10, 70, 0, 0">
                 <TextBlock Text="Middlename: "></TextBlock>
-                <TextBox Text="{Binding SelectedEmployee.Middlename, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding SelectedEmployee.Middlename, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10, 90, 0, 0">
                 <TextBlock Text="Date: "></TextBlock>
-                <TextBox Text="{Binding SelectedEmployee.Date, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding SelectedEmployee.ReqruitmentDate, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10, 110, 0, 0">
                 <TextBlock Text="BirthDay: "></TextBlock>
-                <TextBox Text="{Binding SelectedEmployee.BirthDay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding SelectedEmployee.BirthYear, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10, 130, 0, 0">
                 <TextBlock Text="Position: "></TextBlock>
-                <TextBox Text="{Binding SelectedEmployee.Position, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding SelectedEmployee.Position, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10, 150, 0, 0">
                 <TextBlock Text="Salary: "></TextBlock>
-                <TextBox Text="{Binding SelectedEmployee.Salary, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding SelectedEmployee.Salary, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10, 170, 0, 0">
                 <TextBlock Text="Department: "></TextBlock>
-                <ComboBox ItemsSource="{Binding Departments, UpdateSourceTrigger=PropertyChanged}" 
-                          SelectedItem="{Binding ComboDepartment, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                <ComboBox ItemsSource="{Binding EmployeeInfoDepartments, UpdateSourceTrigger=PropertyChanged}" 
+                          SelectedItem="{Binding EmployeeInfoSelectedDepartment, 
+                                                 UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </Canvas>
         <Grid Grid.Column="1" Margin="0, 10, 0, 150">
@@ -165,13 +166,15 @@
                         HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
                     <TextBlock Text="Company:" HorizontalAlignment="Left" Margin="10,0,10,13" 
                                VerticalAlignment="Bottom"/>
-                    <ComboBox ItemsSource="{Binding ComboCompanies, UpdateSourceTrigger=PropertyChanged}" 
-                            SelectedItem="{Binding ComboCompany, UpdateSourceTrigger=PropertyChanged}" 
+                    <ComboBox ItemsSource="{Binding ReportsCompanies, UpdateSourceTrigger=PropertyChanged}" 
+                            SelectedItem="{Binding SalaryReportSelectedCompany, UpdateSourceTrigger=PropertyChanged}" 
                              HorizontalAlignment="Left" Margin="70,0,10,10" VerticalAlignment="Bottom"/>
                     <TextBlock Text="Department:" HorizontalAlignment="Right" Margin="10,0,80,13" 
                                VerticalAlignment="Bottom"/>
-                    <ComboBox ItemsSource="{Binding ComboDepartments, UpdateSourceTrigger=PropertyChanged}" 
-                            SelectedItem="{Binding ComboRepDepartment, UpdateSourceTrigger=PropertyChanged}" 
+                    <ComboBox ItemsSource="{Binding SalaryReportDepartments, 
+                                                    UpdateSourceTrigger=PropertyChanged}" 
+                            SelectedItem="{Binding SalaryReportSelectedDepartment, 
+                                                   UpdateSourceTrigger=PropertyChanged}" 
                             HorizontalAlignment="Right" Margin="10,0,10,10" VerticalAlignment="Bottom"/>
                 </Grid>
             </Border>
@@ -182,7 +185,7 @@
                     HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="Button_Click_3"/>
                     <TextBlock Text="Company:" HorizontalAlignment="Left" Margin="10,0,80,43" 
                                VerticalAlignment="Bottom"/>
-                    <ComboBox ItemsSource="{Binding ComboCompanies, UpdateSourceTrigger=PropertyChanged}" 
+                    <ComboBox ItemsSource="{Binding ReportsCompanies, UpdateSourceTrigger=PropertyChanged}" 
                       SelectedItem="{Binding ComboListCompany, UpdateSourceTrigger=PropertyChanged}" 
                       HorizontalAlignment="Left" Margin="70,0,0,40" VerticalAlignment="Bottom"/>
                     <TextBlock Text="Experience:" HorizontalAlignment="Right" Margin="0,0,60,43" 

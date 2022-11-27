@@ -24,8 +24,8 @@ namespace Companies.VMs
 
         private void SalaryReportExecute()
         {
-            int companyId = ComboCompany == null ? 0 : ComboCompany.Id;
-            int departmentId = ComboRepDepartment == null ? 0 : ComboRepDepartment.Id;
+            int companyId = SalaryReportSelectedCompany == null ? 0 : SalaryReportSelectedCompany.Id;
+            int departmentId = SalaryReportSelectedDepartment == null ? 0 : SalaryReportSelectedDepartment.Id;
             List<SalaryReportDTO> reportResult = new List<SalaryReportDTO>();
 
             if (companyId != 0)

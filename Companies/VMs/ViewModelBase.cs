@@ -9,7 +9,7 @@ namespace Companies.VMs
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propname)
         {

@@ -16,14 +16,10 @@ namespace Companies.VMs
         public AutoCommand CancelEmployeeCommand =>
         new AutoCommand(obj => { CancelEmployeeCommandExecute(); });
 
-        private void CancelEmployeeCommandExecute()
-        {
+        private void CancelEmployeeCommandExecute() =>
             CloseEmployeeAction();
-        }
 
         public Action CloseEmployeeAction { get; set; }
-
-
 
         private string employeeName;
         public string EmployeeName
@@ -35,9 +31,10 @@ namespace Companies.VMs
             set
             {
                 employeeName = value;
-                OnPropertyChanged("EmployeeName");
+                OnPropertyChanged(nameof(EmployeeName));
             }
         }
+
         private string lastName;
         public string LastName
         {
@@ -48,7 +45,7 @@ namespace Companies.VMs
             set
             {
                 lastName = value;
-                OnPropertyChanged("LastName");
+                OnPropertyChanged(nameof(LastName));
             }
         }
 
@@ -62,7 +59,7 @@ namespace Companies.VMs
             set
             {
                 middleName = value;
-                OnPropertyChanged("MiddleName");
+                OnPropertyChanged(nameof(MiddleName));
             }
         }
 
@@ -76,7 +73,7 @@ namespace Companies.VMs
             set
             {
                 dateRecruitment = value;
-                OnPropertyChanged("DateRecruitment");
+                OnPropertyChanged(nameof(DateRecruitment));
             }
         }
 
@@ -90,7 +87,7 @@ namespace Companies.VMs
             set
             {
                 birthday = value;
-                OnPropertyChanged("Birthday");
+                OnPropertyChanged(nameof(Birthday));
             }
         }
 
@@ -104,7 +101,7 @@ namespace Companies.VMs
             set
             {
                 position = value;
-                OnPropertyChanged("Position");
+                OnPropertyChanged(nameof(Position));
             }
         }
 
@@ -118,7 +115,7 @@ namespace Companies.VMs
             set
             {
                 salary = value;
-                OnPropertyChanged("Salary");
+                OnPropertyChanged(nameof(Salary));
             }
         }
 
@@ -133,15 +130,15 @@ namespace Companies.VMs
         {
             CreatedEmployee = new Employee()
             {
-                Name = this.EmployeeName,
-                Lastname = this.LastName,
-                BirthYear = Convert.ToInt32(this.Birthday),
-                Salary = this.Salary,
-                Middlename = this.MiddleName,
-                ReqruitmentDate = Convert.ToInt32(this.DateRecruitment),
-                Position = this.Position,
+                Name            = EmployeeName,
+                Lastname        = LastName,
+                BirthYear       = Convert.ToInt32(Birthday),
+                Salary          = Salary,
+                Middlename      = MiddleName,
+                ReqruitmentDate = Convert.ToInt32(DateRecruitment),
+                Position        = Position,
             };
-            SelectedDepartment.Employees.Add(CreatedEmployee);
+            SelectedDepartment?.Employees?.Add(CreatedEmployee);
             Context.SaveChanges();
             CloseEmployeeAction();
             ResetEmployeeData();
@@ -149,21 +146,13 @@ namespace Companies.VMs
 
         private void ResetEmployeeData()
         {
-            this.EmployeeName = "";
-            this.LastName = "";
-            this.Birthday = "";
-            this.Salary = 0;
-            this.MiddleName = "";
-            this.DateRecruitment = "";
-            this.Position = "";
-        }
-
-        public void RefreshEmployees(int departmentId, Employee newEployee)
-        {
-            var department = Context.Departments.FirstOrDefault(d => d.Id == departmentId);
-            var company = Context.Companies.FirstOrDefault(c => c.Id == department.CompanyId);
-            department = company.Departments.FirstOrDefault(d => d.Id == departmentId);
-            department.Employees.Add(newEployee);
+            EmployeeName = "";
+            LastName = "";
+            Birthday = "";
+            Salary = 0;
+            MiddleName = "";
+            DateRecruitment = "";
+            Position = "";
         }
     }
 }

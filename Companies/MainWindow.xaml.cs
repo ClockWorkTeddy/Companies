@@ -63,7 +63,7 @@ namespace Companies
             EmplyeeReportWindow emplyeeReportWindow = new(DataContext);
 
             if (((MainWindowViewModel)DataContext).ComboListCompany != null &&
-                ((MainWindowViewModel)DataContext).ComboListCompany.Name != " ")
+                ((MainWindowViewModel)DataContext)?.ComboListCompany?.Name != " ")
                 emplyeeReportWindow.Show();
         }
     }

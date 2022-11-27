@@ -18,7 +18,10 @@ namespace Companies.Models
 
         public override string ToString()
         {
-            return Name;
+            if (Name != null)
+                return Name;
+            else
+                return base.ToString();
         }
     }
 }

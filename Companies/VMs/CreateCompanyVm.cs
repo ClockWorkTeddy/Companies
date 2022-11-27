@@ -11,23 +11,14 @@ namespace Companies.VMs
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
-        private string name;
-        private string date;
-        private string adress;
-
+        public Action CloseCompanyAction { get; set; }
         public AutoCommand AddCompanyCommand =>
             new AutoCommand(obj => { AddCompanyExecute(); }, obj => AddCompanyCanExecute());
 
         public AutoCommand CancelCompanyCommand =>
             new AutoCommand(obj => { CancelCompanyCommandExecute(); });
 
-        private void CancelCompanyCommandExecute()
-        {
-            CloseCompanyAction();
-        }
-
-        public Action CloseCompanyAction { get; set; }
-
+        private string name;
         public string Name
         {
             get
@@ -37,9 +28,11 @@ namespace Companies.VMs
             set
             {
                 name = value;
-                OnPropertyChanged("Name");
+                OnPropertyChanged(nameof(Name));
             }
         }
+
+        private string date; 
         public string Date
         {
             get
@@ -49,10 +42,11 @@ namespace Companies.VMs
             set
             {
                 date = value;
-                OnPropertyChanged("Date");
+                OnPropertyChanged(nameof(Date));
             }
         }
 
+        private string adress;
         public string Adress
         {
             get
@@ -62,9 +56,13 @@ namespace Companies.VMs
             set
             {
                 adress = value;
-                OnPropertyChanged("Adress");
+                OnPropertyChanged(nameof(Adress));
             }
         }
+
+
+        private void CancelCompanyCommandExecute() =>
+            CloseCompanyAction();
 
         private bool AddCompanyCanExecute()
         {
@@ -77,29 +75,24 @@ namespace Companies.VMs
         {
             Company newCompany = new Company()
             {
-                Name = this.Name,
-                Date = this.Date,
-                Adress = this.Adress
+                Name = Name,
+                Date = Date,
+                Adress = Adress
             };
 
             Context.Companies.Add(newCompany);
             Context.SaveChanges();
             Companies.Add(newCompany);
-            SetComboCompanies();
+            SetReportsCompanies();
             CloseCompanyAction();
             ResetCompanyData();
         }
 
         private void ResetCompanyData()
         {
-            this.Name = "";
-            this.Date = "";
-            this.Adress = "";
-        }
-
-        private void ResetDepartmentData()
-        {
-            this.DepartmentName = "";
+            Name = "";
+            Date = "";
+            Adress = "";
         }
     }
 }
